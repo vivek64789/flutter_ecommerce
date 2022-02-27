@@ -4,13 +4,12 @@ part of 'upload_bloc.dart';
 class UploadState {
   final String picture;
 
-  UploadState({this.picture = ""});
+  UploadState({this.picture});
 
   UploadState copyWith({String picture}) => UploadState(
         picture: picture ?? this.picture,
       );
 }
-
 
 // -------------------------------------------------//
 

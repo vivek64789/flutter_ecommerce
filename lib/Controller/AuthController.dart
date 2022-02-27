@@ -98,6 +98,8 @@ class AuthController {
     secureStorage.delete(key: 'xtoken');
     secureStorage.deleteAll();
   }
+
+
 }
 
 final authController = AuthController();

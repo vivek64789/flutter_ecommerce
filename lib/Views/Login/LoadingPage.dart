@@ -12,6 +12,7 @@ class LoadingPage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is LogInState) {
+          BlocProvider.of<AuthBloc>(context).add(GetPersistentRoleEvent());
           Navigator.of(context).pushReplacement(
               customRoute(page: HomePage(), curved: Curves.easeInOut));
         } else if (state is LogOutState) {

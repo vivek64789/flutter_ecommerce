@@ -1,10 +1,14 @@
+import 'package:e_commers/Bloc/Admin/AdminCategoryBloc/admin_category_bloc.dart';
 import 'package:e_commers/Controller/HomeController.dart';
+import 'package:e_commers/Helpers/ModalFrave.dart';
+import 'package:e_commers/Helpers/ModalLoading.dart';
 import 'package:e_commers/Models/Home/CategoriesProducts.dart';
 import 'package:e_commers/Views/Categories/CategoriesPage.dart';
 import 'package:e_commers/Views/Profile/AdminCategories/AddAdminCategory.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
@@ -60,67 +64,111 @@ class AdminCategories extends StatelessWidget {
   }
 }
 
-class _ListCategories extends StatelessWidget {
+class _ListCategories extends StatefulWidget {
+  @override
+  State<_ListCategories> createState() => _ListCategoriesState();
+}
+
+class _ListCategoriesState extends State<_ListCategories> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 600.sm,
-      width: MediaQuery.of(context).size.width,
-      child: FutureBuilder<List<Category>>(
-        future: dbHomeController.getListCategoriesProducts(),
-        builder: (context, snapshot) {
-          List<Category> list = snapshot.data;
+    final _adminCategoryBloc = BlocProvider.of<AdminCategoryBloc>(context);
+    return BlocListener<AdminCategoryBloc, AdminCategoryState>(
+      listener: (context, state) {
+        if (state is LoadingUpdateCategoryState) {
+          modalLoading(context, 'Updating category...');
+        } else if (state is UpdateCategorySuccessState) {
+          Navigator.of(context).pop();
+          modalFrave(context, 'Category Updated Successfully');
+        } else if (state is FailureUpdateCategoryState) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: CustomText(text: 'Error Updating category'),
+              backgroundColor: Colors.red));
+        } else if (state is DeleteCategoryLoadingState) {
+          modalLoading(context, 'Deleting category...');
+        } else if (state is DeleteCategorySuccessState) {
+          setState(() {});
+          Navigator.of(context).pop();
+          modalFrave(context, 'Category Deleted Successfully');
+        } else if (state is DeleteCategoryFailureState) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: CustomText(text: 'Error Deleting category'),
+              backgroundColor: Colors.red));
+        }
+      },
+      child: Container(
+        height: 600.sm,
+        width: MediaQuery.of(context).size.width,
+        child: FutureBuilder<List<Category>>(
+          future: dbHomeController.getListCategories(),
+          builder: (context, snapshot) {
+            List<Category> list = snapshot.data;
 
-          return !snapshot.hasData
-              ? _LoadingShimmerCategories()
-              : ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  itemCount: list.length == null ? 0 : list.length,
-                  itemBuilder: (context, i) => Container(
-                    margin: EdgeInsets.all(10.sm),
-                    padding: EdgeInsets.symmetric(vertical: 10.sm),
-                    width: 150,
-                    decoration: BoxDecoration(
-                        color: Color(0xff0C6CF2).withOpacity(.1),
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: Center(
-                      child: ListTile(
-                        title: Text(
-                          list[i].category,
-                          style: GoogleFonts.getFont('Roboto',
-                              fontSize: 18, color: Color(0xff0C6CF2)),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        trailing: Container(
-                          width: 100.sm,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              IconButton(
-                                splashColor: Color.fromARGB(255, 169, 199, 170),
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: Colors.green,
-                                ),
-                                onPressed: () {},
+            return !snapshot.hasData
+                ? _LoadingShimmerCategories()
+                : RefreshIndicator(
+                    onRefresh: () async {
+                      await dbHomeController.getListCategories();
+                      setState(() {});
+                      return dbHomeController.getListCategories();
+                    },
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: list.length == null ? 0 : list.length,
+                      itemBuilder: (context, i) => Container(
+                        margin: EdgeInsets.all(10.sm),
+                        padding: EdgeInsets.symmetric(vertical: 10.sm),
+                        width: 150,
+                        decoration: BoxDecoration(
+                            color: Color(0xff0C6CF2).withOpacity(.1),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Center(
+                          child: ListTile(
+                            title: Text(
+                              list[i].category,
+                              style: GoogleFonts.getFont('Roboto',
+                                  fontSize: 18, color: Color(0xff0C6CF2)),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: Container(
+                              width: 100.sm,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                    splashColor:
+                                        Color.fromARGB(255, 169, 199, 170),
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Colors.green,
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    splashColor:
+                                        Color.fromARGB(255, 253, 154, 154),
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () {
+                                      _adminCategoryBloc.add(
+                                          DeleteCategoryEvent(id: list[i].id));
+                                    },
+                                  )
+                                ],
                               ),
-                              IconButton(
-                                splashColor: Color.fromARGB(255, 253, 154, 154),
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {},
-                              )
-                            ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-        },
+                  );
+          },
+        ),
       ),
     );
   }

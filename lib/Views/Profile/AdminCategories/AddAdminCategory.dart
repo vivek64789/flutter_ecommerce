@@ -1,11 +1,10 @@
 import 'dart:io';
 
-import 'package:animate_do/animate_do.dart';
-import 'package:e_commers/Bloc/Auth/auth_bloc.dart';
-import 'package:e_commers/Bloc/Personal/personal_bloc.dart';
+import 'package:e_commers/Bloc/Admin/AdminCategoryBloc/admin_category_bloc.dart';
+import 'package:e_commers/Bloc/Upload/upload_bloc.dart';
+import 'package:e_commers/Helpers/LoadingUpload.dart';
 import 'package:e_commers/Helpers/ModalFrave.dart';
 import 'package:e_commers/Helpers/ModalLoading.dart';
-import 'package:e_commers/Widgets/CircleFrave.dart';
 import 'package:e_commers/Widgets/TextFormFrave.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:e_commers/Widgets/CustomButton.dart';
@@ -19,8 +18,8 @@ class AddAdminCategory extends StatefulWidget {
 }
 
 class _AddAdminCategoryState extends State<AddAdminCategory> {
-  TextEditingController categoryController;
-  TextEditingController pictureController;
+  TextEditingController categoryController = TextEditingController();
+  var category = "";
   final _keyForm = GlobalKey<FormState>();
 
   @override
@@ -30,20 +29,20 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = BlocProvider.of<AuthBloc>(context);
-    final personalBloc = BlocProvider.of<PersonalBloc>(context);
+    final adminCategoryBloc = BlocProvider.of<AdminCategoryBloc>(context);
+    final uploadBloc = BlocProvider.of<UploadBloc>(context).state;
 
-    return BlocListener<PersonalBloc, PersonalState>(
+    return BlocListener<AdminCategoryBloc, AdminCategoryState>(
       listener: (context, state) {
-        if (state is LoadingPersonalState) {
-          modalLoading(context, 'Adding user...');
-        } else if (state is SuccessRegisterPersona) {
+        if (state is LoadingAddCategoryState) {
+          modalLoading(context, 'Adding category...');
+        } else if (state is AddCategorySuccessState) {
           Navigator.of(context).pop();
-          modalFrave(context, 'User Added');
-        } else if (state is FailureRegisterState) {
+          modalFrave(context, 'Category Added Successfully');
+        } else if (state is FailureAddCategoryState) {
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: CustomText(text: 'Error adding user'),
+              content: CustomText(text: 'Error adding category'),
               backgroundColor: Colors.red));
         }
       },
@@ -71,23 +70,44 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
               SizedBox(height: 30.0),
               CustomText(text: 'Category Information', fontSize: 18),
               SizedBox(height: 10.0),
-              TextFormFrave(
-                controller: categoryController,
-                hintText: 'Enter Category',
-                prefixIcon: Icons.category,
-                fontSize: 18,
+              TextFormField(
+                // hintText: 'Enter Category',
+                // prefixIcon: Icons.category,
+                // fontSize: 18,
+                onChanged: (value) => category = value,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter category';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 20.0),
               Row(
                 children: [
                   Padding(
                       padding: EdgeInsets.only(left: 15.0),
-                      child: TextButton(
-                        onPressed: () => changePicture(context),
-                        child: CustomText(
-                          text: 'Choose Category Picture',
-                          color: Colors.blue,
-                          fontSize: 18,
+                      child: BlocListener<UploadBloc, UploadState>(
+                        listener: (context, state) {
+                          if (state is LoadingImageState) {
+                            loadinUploadFile(context);
+                          } else if (state is UploadSuccess) {
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: CustomText(
+                                    text: 'Image Uploaded success',
+                                    fontSize: 18),
+                                backgroundColor: Colors.green));
+                            setState(() {});
+                          }
+                        },
+                        child: TextButton(
+                          onPressed: () => changePicture(context),
+                          child: CustomText(
+                            text: 'Choose Category Picture',
+                            color: Colors.blue,
+                            fontSize: 18,
+                          ),
                         ),
                       )),
                   SizedBox(height: 15.0),
@@ -100,14 +120,15 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
                 fontWeight: FontWeight.w500,
                 height: 55,
                 onPressed: () {
-                  // if (_keyForm.currentState.validate()) {
-                  //   personalBloc.add(RegisterPersonalInformationEvent(
-                  //       name: firstnameController.text,
-                  //       lastName: lastnameController.text,
-                  //       phone: phoneController.text,
-                  //       address: addressController.text,
-                  //       reference: referenceController.text));
-                  // }
+                  print("This is uploaded image ${uploadBloc.picture}");
+                  if (_keyForm.currentState.validate()) {
+                    adminCategoryBloc.add(
+                      AddCategoryEvent(
+                        category: category,
+                        picture: uploadBloc.picture,
+                      ),
+                    );
+                  }
                 },
               )
             ],
@@ -128,7 +149,10 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
       image = File(pickedFile.path);
       img = pickedFile.path;
 
-      BlocProvider.of<AuthBloc>(context).add(ChangePictureProfile(image: img));
+      BlocProvider.of<UploadBloc>(context)
+          .add(UploadPictureEvent(picture: img));
+
+      print("This is uploaded picture");
     }
 
     setState(() {});
@@ -140,7 +164,8 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
     if (pickedFile != null) {
       image = File(pickedFile.path);
       img = pickedFile.path;
-      BlocProvider.of<AuthBloc>(context).add(ChangePictureProfile(image: img));
+      BlocProvider.of<UploadBloc>(context)
+          .add(UploadPictureEvent(picture: img));
     }
     setState(() {});
   }

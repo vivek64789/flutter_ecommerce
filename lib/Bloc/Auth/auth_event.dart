@@ -12,9 +12,9 @@ class LoginEvent extends AuthEvent {
 
 class LogOutEvent extends AuthEvent {}
 
-
 class CheckLoginEvent extends AuthEvent {}
 
+class GetPersistentRoleEvent extends AuthEvent {}
 
 class RegisterEvent extends AuthEvent {
   final String username;
@@ -22,12 +22,10 @@ class RegisterEvent extends AuthEvent {
   final String password;
 
   RegisterEvent({this.username, this.email, this.password});
-  
 }
 
 // *----------------------------------------------*
 class ChangePictureProfile extends AuthEvent {
   final String image;
   ChangePictureProfile({this.image});
-
 }

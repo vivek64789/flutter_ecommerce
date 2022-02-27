@@ -66,10 +66,14 @@ class _ListCategories extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.0)),
             child: Column(
               children: [
-                SvgPicture.network(
+                Container(
+                  height: 100,
+                  child: Image.network(
                     'http://192.168.1.68:5002/' + list[i].picture,
-                    height: 85,
-                    color: Color(0xff0C6CF2)),
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 SizedBox(height: 10.0),
                 CustomText(text: list[i].category, fontSize: 22)
               ],
@@ -78,7 +82,7 @@ class _ListCategories extends StatelessWidget {
           onTap: () => Navigator.of(context).push(customRoute(
               page: CategoryProductsPage(
                   uidCategory: list[i].id, category: list[i].category),
-              curved: Curves.easeInOut))),
+              curved: Curves.linearToEaseOut))),
     );
   }
 }

@@ -14,18 +14,17 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   @override
   Stream<UploadState> mapEventToState(UploadEvent event) async* {
     if (event is UploadPictureEvent) {
-      yield* _mapChangeFotoProfile(event.picture);
+      yield* _mapUploadPicture(event.picture);
     }
   }
 
-  Stream<UploadState> _mapChangeFotoProfile(String picture) async* {
+  Stream<UploadState> _mapUploadPicture(String picture) async* {
     try {
       final secureStorage = FlutterSecureStorage();
 
       yield LoadingImageState();
 
       final resp = await authController.uploadPicture(picture: picture);
-
       await secureStorage.write(key: 'picture', value: resp.picture);
 
       await Future.delayed(Duration(seconds: 3));

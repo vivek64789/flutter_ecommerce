@@ -59,7 +59,6 @@ class _ListProfileState extends State<ListProfile> {
 
       BlocProvider.of<AuthBloc>(context).add(ChangePictureProfile(image: img));
     }
-
     setState(() {});
   }
 

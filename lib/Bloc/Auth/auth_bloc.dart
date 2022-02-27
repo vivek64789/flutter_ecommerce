@@ -24,6 +24,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapLogOutLogin();
     } else if (event is ChangePictureProfile) {
       yield* _mapChangeFotoProfile(event.image);
+    } else if (event is GetPersistentRoleEvent) {
+      yield* _mapPersistentRole();
     }
   }
 
@@ -44,6 +46,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       yield FailureRegisterState(error: e.toString());
     }
+  }
+
+  Stream<AuthState> _mapPersistentRole() async* {
+    try {
+      String role = await authController.rolePersonStorage();
+      yield state.copyWith(role: role);
+    } catch (e) {}
   }
 
   Stream<AuthState> _mapAuthenticationLogin(

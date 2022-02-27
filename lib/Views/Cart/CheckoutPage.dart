@@ -76,7 +76,7 @@ class CheckOutPagePage extends StatelessWidget {
                                 : 'Change',
                             color: Colors.blue,
                             fontSize: 18),
-                        onTap: () => Navigator.of(context).push(rutaFrave(
+                        onTap: () => Navigator.of(context).push(customRoute(
                             page: DeliveryPage(), curved: Curves.easeInOut)),
                       ),
                     ],
@@ -119,7 +119,7 @@ class CheckOutPagePage extends StatelessWidget {
                                         text: 'Change',
                                         color: Colors.blue,
                                         fontSize: 18)),
-                            onTap: () => Navigator.of(context).push(rutaFrave(
+                            onTap: () => Navigator.of(context).push(customRoute(
                                 page: PaymentPage(), curved: Curves.easeInOut)))
                       ],
                     ),

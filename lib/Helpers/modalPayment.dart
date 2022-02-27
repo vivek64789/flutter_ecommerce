@@ -26,7 +26,7 @@ void modalPayment(BuildContext context) {
               text: 'Continue',
               fontSize: 19,
               onPressed: () => Navigator.of(context).pushReplacement(
-                  rutaFrave(page: HomePage(), curved: Curves.easeInOut)),
+                  customRoute(page: HomePage(), curved: Curves.easeInOut)),
             )
           ],
         ),

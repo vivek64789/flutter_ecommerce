@@ -13,10 +13,10 @@ class LoadingPage extends StatelessWidget {
       listener: (context, state) {
         if (state is LogInState) {
           Navigator.of(context).pushReplacement(
-              rutaFrave(page: HomePage(), curved: Curves.easeInOut));
+              customRoute(page: HomePage(), curved: Curves.easeInOut));
         } else if (state is LogOutState) {
           Navigator.of(context).pushReplacement(
-              rutaFrave(page: HomeScreenPage(), curved: Curves.easeInOut));
+              customRoute(page: HomeScreenPage(), curved: Curves.easeInOut));
         }
       },
       child: Scaffold(
@@ -40,7 +40,7 @@ class LoadingPage extends StatelessWidget {
                     CircularProgressIndicator(),
                     SizedBox(width: 15.0),
                     CustomText(
-                      text: 'Checking your device',
+                      text: 'Loading...',
                       fontSize: 18,
                     ),
                   ],

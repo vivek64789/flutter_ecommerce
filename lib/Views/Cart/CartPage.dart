@@ -66,7 +66,7 @@ class CartPage extends StatelessWidget {
                     height: 56,
                     onPressed: () {
                       if (productBloc.product.isNotEmpty) {
-                        Navigator.of(context).push(rutaFrave(
+                        Navigator.of(context).push(customRoute(
                             page: CheckOutPagePage(),
                             curved: Curves.easeInOut));
                       }
@@ -237,7 +237,8 @@ class _AppBarCart extends StatelessWidget {
                 radius: 24,
                 child: InkWell(
                     onTap: () => Navigator.of(context).pushReplacement(
-                        rutaFrave(page: HomePage(), curved: Curves.easeInOut)),
+                        customRoute(
+                            page: HomePage(), curved: Curves.easeInOut)),
                     child: Icon(Icons.arrow_back_ios_rounded,
                         color: Colors.black)),
               ),
@@ -298,7 +299,7 @@ class WithoutProducts extends StatelessWidget {
                                     horizontal: 40, vertical: 10))),
                         child: CustomText(text: 'Go Products', fontSize: 10.h),
                         onPressed: () => Navigator.of(context).pushReplacement(
-                            rutaFrave(
+                            customRoute(
                                 page: HomePage(), curved: Curves.easeInOut)),
                       ),
                     )

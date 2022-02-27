@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:e_commers/Helpers/LoadingUpload.dart';
+import 'package:e_commers/Views/Profile/AdminCategories/AdminCategories.dart';
+import 'package:e_commers/Views/Profile/AdminProducts/AdminProducts.dart';
 import 'package:e_commers/Views/Profile/Card/CreditCardPage.dart';
 import 'package:e_commers/Views/Profile/Shopping/ShoppingPage.dart';
 import 'package:e_commers/Views/Start/HomeScreenPage.dart';
 import 'package:e_commers/Widgets/CircleFrave.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -87,7 +90,7 @@ class _ListProfileState extends State<ListProfile> {
               backgroundColor: Colors.green));
         } else if (state is LogOutState) {
           Navigator.pushReplacement(context,
-              rutaFrave(page: HomeScreenPage(), curved: Curves.easeInOut));
+              customRoute(page: HomeScreenPage(), curved: Curves.easeInOut));
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
@@ -168,7 +171,7 @@ class _ListProfileState extends State<ListProfile> {
                       borderRadius: BorderRadius.circular(50.0),
                       icon: Icons.person_outline_rounded,
                       backgroundColor: Color(0xff7882ff),
-                      onPressed: () => Navigator.of(context).push(rutaFrave(
+                      onPressed: () => Navigator.of(context).push(customRoute(
                           page: InformationPage(), curved: Curves.easeInOut)),
                     ),
                     _Divider(size: size),
@@ -177,13 +180,65 @@ class _ListProfileState extends State<ListProfile> {
                       borderRadius: BorderRadius.circular(50.0),
                       icon: Icons.credit_card_rounded,
                       backgroundColor: Color(0xffFFCD3A),
-                      onPressed: () => Navigator.of(context).push(rutaFrave(
+                      onPressed: () => Navigator.of(context).push(customRoute(
                           page: CreditCardPage(), curved: Curves.easeInOut)),
                     ),
                   ],
                 ),
               ),
               SizedBox(height: 15.0),
+              state.role == "Admin"
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0),
+                          child: CustomText(
+                            text: 'Admin Panel',
+                            fontSize: 17,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Container(
+                          height: 110.h,
+                          width: size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30.0)),
+                          child: Column(
+                            children: [
+                              CardProfile(
+                                text: 'Categories',
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30.0)),
+                                backgroundColor: Color(0xff2EAA9B),
+                                icon: Icons.settings_applications,
+                                onPressed: () => Navigator.of(context).push(
+                                    customRoute(
+                                        page: AdminCategories(),
+                                        curved: Curves.fastLinearToSlowEaseIn)),
+                              ),
+                              _Divider(size: size),
+                              CardProfile(
+                                text: 'Products',
+                                backgroundColor: Color(0xff0716A5),
+                                icon: Icons.shopping_bag_outlined,
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30.0)),
+                                onPressed: () => Navigator.of(context).push(
+                                    customRoute(
+                                        page: AdminProducts(),
+                                        curved: Curves.easeInOut)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
+              SizedBox(height: 10.0),
               Padding(
                 padding: EdgeInsets.only(left: 25.0),
                 child: CustomText(
@@ -234,7 +289,7 @@ class _ListProfileState extends State<ListProfile> {
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30.0)),
-                      onPressed: () => Navigator.of(context).push(rutaFrave(
+                      onPressed: () => Navigator.of(context).push(customRoute(
                           page: ShoppingPage(), curved: Curves.easeInOut)),
                     ),
                   ],

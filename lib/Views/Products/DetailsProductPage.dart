@@ -9,6 +9,7 @@ import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -174,8 +175,8 @@ class DetailsProductPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      height: 60,
-                      width: 200,
+                      height: 40.h,
+                      width: 150.h,
                       decoration: BoxDecoration(
                           color: Color(0xffF5F5F5),
                           borderRadius: BorderRadius.circular(50.0)),
@@ -198,24 +199,26 @@ class DetailsProductPage extends StatelessWidget {
                               .add(AddProductToCart(product: productSelect));
                           await Future.delayed(Duration(seconds: 2));
                           Navigator.pop(context);
-                          Navigator.of(context).push(rutaFrave(
+                          Navigator.of(context).push(customRoute(
                               page: HomePage(), curved: Curves.easeInOut));
                         },
                       ),
                     ),
                     // SizedBox(width: 15.0),
                     Container(
-                      height: 60,
-                      width: 200,
+                      height: 40.h,
+                      width: 100.h,
                       decoration: BoxDecoration(
                           color: Color(0xff2D55DB),
-                          borderRadius: BorderRadius.circular(50.0)),
+                          borderRadius: BorderRadius.circular(10.0.sh)),
                       child: TextButton(
                         style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0))),
+                                borderRadius: BorderRadius.circular(10.0.h))),
                         child: CustomText(
-                            text: 'Buy Now', fontSize: 20, color: Colors.white),
+                            text: 'Buy Now',
+                            fontSize: 18.h,
+                            color: Colors.white),
                         onPressed: () {
                           final productSelect = ProductCart(
                               uidProduct: product.id,
@@ -227,7 +230,7 @@ class DetailsProductPage extends StatelessWidget {
                           productBloc
                               .add(AddProductToCart(product: productSelect));
 
-                          Navigator.of(context).push(rutaFrave(
+                          Navigator.of(context).push(customRoute(
                               page: CartPage(), curved: Curves.easeInOut));
                         },
                       ),

@@ -1,0 +1,140 @@
+import 'package:e_commers/Controller/HomeController.dart';
+import 'package:e_commers/Models/Home/CategoriesProducts.dart';
+import 'package:e_commers/Views/Categories/CategoriesPage.dart';
+import 'package:e_commers/Views/Profile/AdminCategories/AddAdminCategory.dart';
+import 'package:e_commers/Widgets/AnimationRoute.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
+
+class AdminCategories extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xfff5f5f5),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: CustomText(text: 'Manage Categories', color: Colors.black),
+        centerTitle: true,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: Container(
+        // height: 1.sh,
+        child: Column(
+          children: [
+            SizedBox(height: 5.0),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(
+                    text: 'All Categories',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  TextButton(
+                      onPressed: () => Navigator.of(context).push(customRoute(
+                          page: AddAdminCategory(), curved: Curves.easeInOut)),
+                      child: Text(
+                        "Add",
+                        style: TextStyle(fontSize: 15.sm),
+                      ))
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 15.0, bottom: 10.0),
+              child: _ListCategories(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ListCategories extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 600.sm,
+      width: MediaQuery.of(context).size.width,
+      child: FutureBuilder<List<Category>>(
+        future: dbHomeController.getListCategoriesProducts(),
+        builder: (context, snapshot) {
+          List<Category> list = snapshot.data;
+
+          return !snapshot.hasData
+              ? _LoadingShimmerCategories()
+              : ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemCount: list.length == null ? 0 : list.length,
+                  itemBuilder: (context, i) => Container(
+                    margin: EdgeInsets.all(10.sm),
+                    padding: EdgeInsets.symmetric(vertical: 10.sm),
+                    width: 150,
+                    decoration: BoxDecoration(
+                        color: Color(0xff0C6CF2).withOpacity(.1),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    child: Center(
+                      child: ListTile(
+                        title: Text(
+                          list[i].category,
+                          style: GoogleFonts.getFont('Roboto',
+                              fontSize: 18, color: Color(0xff0C6CF2)),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: Container(
+                          width: 100.sm,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              IconButton(
+                                splashColor: Color.fromARGB(255, 169, 199, 170),
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.green,
+                                ),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                splashColor: Color.fromARGB(255, 253, 154, 154),
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {},
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+        },
+      ),
+    );
+  }
+}
+
+class _LoadingShimmerCategories extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.white,
+      highlightColor: Color(0xFFF7F7F7),
+      child: Container(
+        color: Colors.white,
+      ),
+    );
+  }
+}

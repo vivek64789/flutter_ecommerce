@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:e_commers/Models/AuthModel.dart';
 import 'package:e_commers/Models/ResponseModels.dart';
 import 'package:e_commers/Models/UpdateProfile.dart';
+import 'package:e_commers/Models/UploadPicture.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,7 +25,6 @@ class AuthController {
     final resp = await http.post(Uri.parse('$server/login'),
         headers: {'Accept': 'application/json'},
         body: {'email': email, 'passwordd': password});
-
     return AuthModel.fromJson(jsonDecode(resp.body));
   }
 
@@ -54,6 +54,21 @@ class AuthController {
     return UpdateProfile.fromJson(jsonDecode(datas.body));
   }
 
+  Future<UploadPicture> uploadPicture({String picture}) async {
+    final token = await readToken();
+
+    var request =
+        http.MultipartRequest('POST', Uri.parse('$server/upload-picture'))
+          ..headers['Accept'] = 'application/json'
+          ..headers['xx-token'] = token
+          ..files.add(await http.MultipartFile.fromPath('picture', picture));
+
+    final resp = await request.send();
+    var datas = await http.Response.fromStream(resp);
+
+    return UploadPicture.fromJson(jsonDecode(datas.body));
+  }
+
   // Flutter Secure Storage
 
   Future<void> persistenToken(String token) async {
@@ -62,6 +77,10 @@ class AuthController {
 
   Future<String> uidPersonStorage() async {
     return secureStorage.read(key: 'uid');
+  }
+
+  Future<String> rolePersonStorage() async {
+    return secureStorage.read(key: 'role');
   }
 
   Future<bool> hasToken() async {

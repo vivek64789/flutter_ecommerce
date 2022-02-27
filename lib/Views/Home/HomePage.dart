@@ -115,7 +115,7 @@ class _ListHomeState extends State<ListHome> {
                     InkWell(
                       borderRadius: BorderRadius.circular(20.0),
                       onTap: () => Navigator.of(context).pushReplacement(
-                          rutaFrave(
+                          customRoute(
                               page: CartPage(), curved: Curves.easeInOut)),
                       child: Stack(
                         children: [
@@ -177,7 +177,7 @@ class _ListHomeState extends State<ListHome> {
                     fontWeight: FontWeight.w600,
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(rutaFrave(
+                    onTap: () => Navigator.of(context).push(customRoute(
                         page: CategoriesPage(), curved: Curves.easeInOut)),
                     child: Row(
                       children: [
@@ -209,7 +209,7 @@ class _ListHomeState extends State<ListHome> {
                     children: [
                       SizedBox(width: 5.0),
                       GestureDetector(
-                        onTap: () => Navigator.of(context).push(rutaFrave(
+                        onTap: () => Navigator.of(context).push(customRoute(
                             page: CategoriesPage(), curved: Curves.easeInOut)),
                         child: Row(
                           children: [

@@ -38,7 +38,7 @@ class _SignInPageState extends State<SignInPage> {
           Navigator.of(context).pop();
           Navigator.pushAndRemoveUntil(
               context,
-              rutaFrave(page: HomePage(), curved: Curves.easeInOut),
+              customRoute(page: HomePage(), curved: Curves.easeInOut),
               (route) => false);
         }
       },
@@ -124,7 +124,7 @@ class _SignInPageState extends State<SignInPage> {
                         text: 'Forgot password?',
                         color: Colors.black,
                         fontSize: 17),
-                    onPressed: () => Navigator.of(context).push(rutaFrave(
+                    onPressed: () => Navigator.of(context).push(customRoute(
                         page: LoadingPage(), curved: Curves.easeInOut)),
                   ),
                 ),

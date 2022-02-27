@@ -2,27 +2,33 @@ part of 'auth_bloc.dart';
 
 @immutable
 class AuthState {
-
   final String uid;
   final String username;
   final String email;
   final String profile;
+  final String role;
 
-  AuthState({
-    this.uid = '0',
-    this.username = '--', 
-    this.email = '-',
-    this.profile = ''
-  });
+  AuthState(
+      {this.uid = '0',
+      this.username = '--',
+      this.email = '-',
+      this.profile = '',
+      this.role = '--'});
 
-  AuthState copyWith({ String uid, String username, String email, String profile })
-    => AuthState(
-      uid: uid ?? this.uid,
-      username: username ?? this.username,
-      email: email ?? this.email,
-      profile: profile ?? this.profile
-    );
+  AuthState copyWith(
+          {String uid,
+          String username,
+          String email,
+          String profile,
+          String role}) =>
+      AuthState(
+          uid: uid ?? this.uid,
+          username: username ?? this.username,
+          email: email ?? this.email,
+          profile: profile ?? this.profile,
+          role: role ?? this.role);
 }
+
 // --------------------------------------------------//
 class LogInState extends AuthState {}
 
@@ -35,6 +41,7 @@ class FailureState extends AuthState {
 
   FailureState({this.error});
 }
+
 // -------------------------------------------------//
 class LoadingRegisterState extends AuthState {}
 
@@ -55,5 +62,4 @@ class FailureSaveImage extends AuthState {
   final String error;
 
   FailureSaveImage({this.error});
-
 }

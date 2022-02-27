@@ -75,7 +75,7 @@ class _ListCategories extends StatelessWidget {
               ],
             ),
           ),
-          onTap: () => Navigator.of(context).push(rutaFrave(
+          onTap: () => Navigator.of(context).push(customRoute(
               page: CategoryProductsPage(
                   uidCategory: list[i].id, category: list[i].category),
               curved: Curves.easeInOut))),

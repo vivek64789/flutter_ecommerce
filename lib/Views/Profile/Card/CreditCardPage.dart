@@ -32,7 +32,7 @@ class CreditCardPage extends StatelessWidget {
                 GestureDetector(
                   child: CustomText(
                       text: 'Add Card', color: Color(0xff0C6CF2), fontSize: 15),
-                  onTap: () => Navigator.of(context).push(rutaFrave(
+                  onTap: () => Navigator.of(context).push(customRoute(
                       page: AddCreditCardPage(), curved: Curves.easeInOut)),
                 ),
                 SizedBox(width: 7.0),

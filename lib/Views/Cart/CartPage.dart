@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:e_commers/Widgets/TextFrave.dart';
 import 'package:e_commers/Widgets/btnFrave.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CartPage extends StatelessWidget {
   @override
@@ -285,7 +286,7 @@ class WithoutProducts extends StatelessWidget {
                         text:
                             'Currently do not have any products in your shopping cart',
                         fontSize: 16),
-                    SizedBox(height: 40),
+                    SizedBox(height: 20),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
                       child: TextButton(
@@ -295,7 +296,7 @@ class WithoutProducts extends StatelessWidget {
                             padding: MaterialStateProperty.all(
                                 EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 10))),
-                        child: TextFrave(text: 'Go Products', fontSize: 19),
+                        child: TextFrave(text: 'Go Products', fontSize: 10.h),
                         onPressed: () => Navigator.of(context).pushReplacement(
                             rutaFrave(
                                 page: HomePage(), curved: Curves.easeInOut)),

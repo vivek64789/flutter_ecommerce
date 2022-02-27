@@ -15,7 +15,7 @@ void modalLoading( BuildContext context, String message ){
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFrave(text: 'Frave Shop', fontSize: 22, color: Color(0xff006cF2), fontWeight: FontWeight.w500),
+              TextFrave(text: 'My Shop', fontSize: 22, color: Color(0xff006cF2), fontWeight: FontWeight.w500),
               SizedBox(height: 20),
               Row(
                 children: [

@@ -41,7 +41,7 @@ class LoadingPage extends StatelessWidget
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFrave(text: 'FRAVE SHOP', fontSize: 20, fontWeight: FontWeight.w500),
+                TextFrave(text: 'MY SHOP', fontSize: 20, fontWeight: FontWeight.w500),
                 SizedBox(height: 20.0),
                 Row(
                   children: [

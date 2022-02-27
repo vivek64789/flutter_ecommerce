@@ -70,7 +70,7 @@ class SignUpPage extends StatelessWidget
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             physics: BouncingScrollPhysics(),
             children: [
-              TextFrave(text: 'Welcome to Frave Shop', fontSize: 23, fontWeight: FontWeight.w600),
+              TextFrave(text: 'Welcome to My Shop', fontSize: 23, fontWeight: FontWeight.w600),
               SizedBox(height: 5.0),
               TextFrave(text: 'Create Account', fontSize: 17),
               SizedBox(height: 20.0),
@@ -111,7 +111,7 @@ class SignUpPage extends StatelessWidget
               Row(
                 children: [
                   Icon(Icons.check_circle_rounded, color: Color(0xff0C6CF2)),
-                  TextFrave(text: ' I Agree to Frave Shop ', fontSize: 15,),
+                  TextFrave(text: ' I Agree to My Shop ', fontSize: 15,),
                   TextFrave(text: ' Terms of Use', fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xff0C6CF2)),
                 ],
               ),

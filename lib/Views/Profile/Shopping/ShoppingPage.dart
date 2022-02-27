@@ -1,7 +1,7 @@
 import 'package:e_commers/Controller/ProductController.dart';
 import 'package:e_commers/Models/Response/PurchasedProductsResponse.dart';
 import 'package:e_commers/Widgets/ShimmerFrave.dart';
-import 'package:e_commers/Widgets/TextFrave.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingPage extends StatelessWidget {
@@ -11,7 +11,7 @@ class ShoppingPage extends StatelessWidget {
       backgroundColor: Color(0xfff5f5f5),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: TextFrave(text: 'Purchased', color: Colors.black),
+        title: CustomText(text: 'Purchased', color: Colors.black),
         centerTitle: true,
         elevation: 0,
         leading: IconButton(
@@ -53,28 +53,28 @@ class _DetailsProductsBuy extends StatelessWidget {
           children: [
             Center(
                 child:
-                    TextFrave(text: purchased.orderBuy.receipt, fontSize: 21)),
+                    CustomText(text: purchased.orderBuy.receipt, fontSize: 21)),
             SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextFrave(text: 'Date ', fontSize: 19, color: Colors.grey),
-                TextFrave(text: '${purchased.orderBuy.datee}', fontSize: 19),
+                CustomText(text: 'Date ', fontSize: 19, color: Colors.grey),
+                CustomText(text: '${purchased.orderBuy.datee}', fontSize: 19),
               ],
             ),
             SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextFrave(text: 'Amount ', fontSize: 19, color: Colors.grey),
-                TextFrave(
+                CustomText(text: 'Amount ', fontSize: 19, color: Colors.grey),
+                CustomText(
                     text: '\$ ${purchased.orderBuy.amount}', fontSize: 19),
               ],
             ),
             SizedBox(height: 10.0),
             Divider(),
             SizedBox(height: 10.0),
-            TextFrave(text: 'Products', fontSize: 19),
+            CustomText(text: 'Products', fontSize: 19),
             SizedBox(height: 10.0),
             Container(
               height: 220,
@@ -109,14 +109,14 @@ class _DetailsProductsBuy extends StatelessWidget {
                           children: [
                             Wrap(
                               children: [
-                                TextFrave(
+                                CustomText(
                                     text: purchased
                                         .orderDetails[i].productId.nameProduct,
                                     fontSize: 17),
                               ],
                             ),
                             SizedBox(height: 10.0),
-                            TextFrave(
+                            CustomText(
                                 text: '\$ ${purchased.orderDetails[i].price}',
                                 fontSize: 18),
                             SizedBox(height: 10.0),
@@ -127,7 +127,7 @@ class _DetailsProductsBuy extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     color: Color(0xfff5f5f5),
                                     shape: BoxShape.circle),
-                                child: TextFrave(
+                                child: CustomText(
                                     text:
                                         '${purchased.orderDetails[i].quantity}',
                                     fontSize: 19)),

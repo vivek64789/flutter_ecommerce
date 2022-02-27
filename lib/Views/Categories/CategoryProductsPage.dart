@@ -2,7 +2,7 @@ import 'package:e_commers/Controller/ProductController.dart';
 import 'package:e_commers/Models/Home/ProductsHome.dart';
 import 'package:e_commers/Views/Products/DetailsProductPage.dart';
 import 'package:e_commers/Widgets/StaggeredDualView.dart';
-import 'package:e_commers/Widgets/TextFrave.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,7 +37,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage> {
     return Scaffold(
         backgroundColor: Color(0xfff5f5f5),
         appBar: AppBar(
-          title: TextFrave(text: widget.category, color: Colors.black),
+          title: CustomText(text: widget.category, color: Colors.black),
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.white,
@@ -84,7 +84,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage> {
                                   fontSize: 17, fontWeight: FontWeight.w500),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            TextFrave(
+                            CustomText(
                                 text: '\$ ${listProduct[i].price}',
                                 fontSize: 16),
                           ],

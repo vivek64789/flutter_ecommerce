@@ -1,9 +1,8 @@
-import 'package:e_commers/Widgets/TextFrave.dart';
-import 'package:e_commers/Widgets/btnFrave.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
+import 'package:e_commers/Widgets/CustomButton.dart';
 import 'package:flutter/material.dart';
 
-void modalFrave( BuildContext context, String message )
-{
+void modalFrave(BuildContext context, String message) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -14,12 +13,14 @@ void modalFrave( BuildContext context, String message )
         content: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             Icon(Icons.check_circle_rounded, size: 100, color: Colors.green),
             SizedBox(height: 10),
-            TextFrave(text: message, fontSize: 19,),
+            CustomText(
+              text: message,
+              fontSize: 19,
+            ),
             SizedBox(height: 20),
-            BtnFrave(
+            CustomButton(
               text: 'Continue',
               fontSize: 19,
               onPressed: () => Navigator.of(context).pop(),
@@ -29,5 +30,4 @@ void modalFrave( BuildContext context, String message )
       );
     },
   );
-
 }

@@ -2,7 +2,7 @@ import 'package:e_commers/Controller/HomeController.dart';
 import 'package:e_commers/Models/Home/CategoriesProducts.dart';
 import 'package:e_commers/Views/Categories/CategoryProductsPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
-import 'package:e_commers/Widgets/TextFrave.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -21,19 +21,18 @@ class CategoriesPage extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         elevation: 0,
-        title: TextFrave(text: 'Categories', color: Colors.black),
+        title: CustomText(text: 'Categories', color: Colors.black),
         centerTitle: true,
       ),
       body: FutureBuilder<List<Category>>(
         future: dbHomeController.getListCategories(),
         builder: (context, snapshot) {
-          
           return !snapshot.hasData
               ? Center(
                   child: Row(
                   children: [
                     CircularProgressIndicator(),
-                    TextFrave(text: 'Loading...')
+                    CustomText(text: 'Loading...')
                   ],
                 ))
               : _ListCategories(list: snapshot.data);
@@ -72,7 +71,7 @@ class _ListCategories extends StatelessWidget {
                     height: 85,
                     color: Color(0xff0C6CF2)),
                 SizedBox(height: 10.0),
-                TextFrave(text: list[i].category, fontSize: 22)
+                CustomText(text: list[i].category, fontSize: 22)
               ],
             ),
           ),

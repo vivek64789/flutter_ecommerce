@@ -11,7 +11,7 @@ import 'package:e_commers/Views/Products/DetailsProductPage.dart';
 import 'package:e_commers/Views/Categories/CategoriesPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Widgets/BottomNavigationFrave.dart';
-import 'package:e_commers/Widgets/TextFrave.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -96,7 +96,7 @@ class _ListHomeState extends State<ListHome> {
                           CircleAvatar(
                             radius: 20,
                             backgroundColor: Color(0xff006CF2),
-                            child: TextFrave(
+                            child: CustomText(
                               text: authBlocState.username
                                   .substring(0, 2)
                                   .toUpperCase(),
@@ -105,7 +105,7 @@ class _ListHomeState extends State<ListHome> {
                             ),
                           ),
                           SizedBox(width: 5.0),
-                          TextFrave(
+                          CustomText(
                             text: authBlocState.username,
                             fontSize: 18,
                           )
@@ -142,11 +142,11 @@ class _ListHomeState extends State<ListHome> {
                                         builder: (context, state) => state
                                                     .amount ==
                                                 0
-                                            ? TextFrave(
+                                            ? CustomText(
                                                 text: '0',
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold)
-                                            : TextFrave(
+                                            : CustomText(
                                                 text:
                                                     '${state.products.length}',
                                                 color: Colors.white,
@@ -171,7 +171,7 @@ class _ListHomeState extends State<ListHome> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextFrave(
+                  CustomText(
                     text: 'Categories',
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -181,7 +181,7 @@ class _ListHomeState extends State<ListHome> {
                         page: CategoriesPage(), curved: Curves.easeInOut)),
                     child: Row(
                       children: [
-                        TextFrave(text: 'See All', fontSize: 17),
+                        CustomText(text: 'See All', fontSize: 17),
                         SizedBox(width: 5.0),
                         Icon(Icons.arrow_forward_ios_rounded,
                             size: 18, color: Color(0xff006CF2))
@@ -200,7 +200,7 @@ class _ListHomeState extends State<ListHome> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextFrave(
+                  CustomText(
                     text: 'Popular Products',
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -213,7 +213,7 @@ class _ListHomeState extends State<ListHome> {
                             page: CategoriesPage(), curved: Curves.easeInOut)),
                         child: Row(
                           children: [
-                            TextFrave(text: 'See All', fontSize: 17),
+                            CustomText(text: 'See All', fontSize: 17),
                             SizedBox(width: 5.0),
                             Icon(Icons.arrow_forward_ios_rounded,
                                 size: 18, color: Color(0xff006CF2))
@@ -281,7 +281,7 @@ class _ListProducts extends StatelessWidget {
                               fontSize: 17, fontWeight: FontWeight.w500),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        TextFrave(text: '\$ ${list[i].price}', fontSize: 16),
+                        CustomText(text: '\$ ${list[i].price}', fontSize: 16),
                       ],
                     ),
                   ),

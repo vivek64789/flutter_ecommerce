@@ -13,7 +13,7 @@ import 'package:e_commers/Views/Profile/InformationPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Bloc/Auth/auth_bloc.dart';
 import 'package:e_commers/Widgets/BottomNavigationFrave.dart';
-import 'package:e_commers/Widgets/TextFrave.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -83,7 +83,7 @@ class _ListProfileState extends State<ListProfile> {
         } else if (state is ChangeProfileSuccess) {
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: TextFrave(text: 'Image Updated success', fontSize: 18),
+              content: CustomText(text: 'Image Updated success', fontSize: 18),
               backgroundColor: Colors.green));
         } else if (state is LogOutState) {
           Navigator.pushReplacement(context,
@@ -106,7 +106,7 @@ class _ListProfileState extends State<ListProfile> {
                               child: CircleFrave(
                                 radius: 90,
                                 child: Center(
-                                    child: TextFrave(
+                                    child: CustomText(
                                         text: state.username
                                             .substring(0, 2)
                                             .toUpperCase(),
@@ -135,7 +135,7 @@ class _ListProfileState extends State<ListProfile> {
                       BounceInRight(
                         child: Align(
                             alignment: Alignment.center,
-                            child: TextFrave(
+                            child: CustomText(
                               text: state.username,
                               fontSize: 21,
                               color: Colors.black,
@@ -144,7 +144,7 @@ class _ListProfileState extends State<ListProfile> {
                       FadeInRight(
                         child: Align(
                             alignment: Alignment.center,
-                            child: TextFrave(
+                            child: CustomText(
                               text: state.email,
                               fontSize: 18,
                               color: Colors.grey,
@@ -186,7 +186,7 @@ class _ListProfileState extends State<ListProfile> {
               SizedBox(height: 15.0),
               Padding(
                 padding: EdgeInsets.only(left: 25.0),
-                child: TextFrave(
+                child: CustomText(
                   text: 'General',
                   fontSize: 17,
                   color: Colors.grey,
@@ -243,7 +243,7 @@ class _ListProfileState extends State<ListProfile> {
               SizedBox(height: 15.0),
               Padding(
                 padding: EdgeInsets.only(left: 25.0),
-                child: TextFrave(
+                child: CustomText(
                   text: 'Personal',
                   fontSize: 17,
                   color: Colors.grey,
@@ -326,7 +326,7 @@ class _ListProfileState extends State<ListProfile> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 25.0, top: 25.0),
-                  child: TextFrave(
+                  child: CustomText(
                       text: 'Change profile picture',
                       fontSize: 20,
                       fontWeight: FontWeight.w500),
@@ -346,7 +346,7 @@ class _ListProfileState extends State<ListProfile> {
                         padding: EdgeInsets.only(left: 22.0),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: TextFrave(
+                            child: CustomText(
                                 text: 'Select an image', fontSize: 18)),
                       ),
                     ),
@@ -366,7 +366,7 @@ class _ListProfileState extends State<ListProfile> {
                         padding: EdgeInsets.only(left: 22.0),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: TextFrave(
+                            child: CustomText(
                               text: 'Take a picture',
                               fontSize: 18,
                             )),
@@ -449,7 +449,7 @@ class CardProfile extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 10.0),
-                    TextFrave(
+                    CustomText(
                       text: text,
                       fontSize: 18,
                     ),

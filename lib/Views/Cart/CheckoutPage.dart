@@ -12,8 +12,8 @@ import 'package:e_commers/Service/StripeService.dart';
 import 'package:e_commers/Views/Cart/DeliveryPage.dart';
 import 'package:e_commers/Views/Cart/PaymentPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
-import 'package:e_commers/Widgets/btnFrave.dart';
-import 'package:e_commers/Widgets/TextFrave.dart';
+import 'package:e_commers/Widgets/CustomButton.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
 
 class CheckOutPagePage extends StatelessWidget {
   @override
@@ -35,7 +35,7 @@ class CheckOutPagePage extends StatelessWidget {
         } else if (state is FailurePaymentState) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: TextFrave(text: state.err, fontSize: 17),
+              content: CustomText(text: state.err, fontSize: 17),
               backgroundColor: Colors.red));
         }
       },
@@ -43,7 +43,8 @@ class CheckOutPagePage extends StatelessWidget {
         backgroundColor: Color(0xfff3f4f8),
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: TextFrave(text: 'Checkout', color: Colors.black, fontSize: 21),
+          title:
+              CustomText(text: 'Checkout', color: Colors.black, fontSize: 21),
           centerTitle: true,
           elevation: 0,
           leading: IconButton(
@@ -64,12 +65,12 @@ class CheckOutPagePage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextFrave(
+                      CustomText(
                           text: 'Shipping address',
                           fontSize: 19,
                           fontWeight: FontWeight.w600),
                       GestureDetector(
-                        child: TextFrave(
+                        child: CustomText(
                             text: personalBloc.state.address == null
                                 ? 'Add'
                                 : 'Change',
@@ -84,9 +85,9 @@ class CheckOutPagePage extends StatelessWidget {
                   SizedBox(height: 5.0),
                   BlocBuilder<PersonalBloc, PersonalState>(
                       builder: (context, state) => (state.address == null)
-                          ? TextFrave(
+                          ? CustomText(
                               text: 'Without Street Address', fontSize: 18)
-                          : TextFrave(
+                          : CustomText(
                               text: '${personalBloc.state.address}',
                               fontSize: 18))
                 ],
@@ -103,18 +104,18 @@ class CheckOutPagePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextFrave(
+                        CustomText(
                             text: 'Payment',
                             fontSize: 19,
                             fontWeight: FontWeight.w600),
                         GestureDetector(
                             child: BlocBuilder<CartBloc, CartState>(
                                 builder: (context, state) => (!state.cardActive)
-                                    ? TextFrave(
+                                    ? CustomText(
                                         text: 'Add',
                                         color: Colors.blue,
                                         fontSize: 18)
-                                    : TextFrave(
+                                    : CustomText(
                                         text: 'Change',
                                         color: Colors.blue,
                                         fontSize: 18)),
@@ -126,7 +127,7 @@ class CheckOutPagePage extends StatelessWidget {
                     SizedBox(height: 5.0),
                     BlocBuilder<CartBloc, CartState>(
                         builder: (context, state) => (!state.cardActive)
-                            ? TextFrave(
+                            ? CustomText(
                                 text: 'Without Credit Card', fontSize: 18)
                             : Container(
                                 padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -139,7 +140,7 @@ class CheckOutPagePage extends StatelessWidget {
                                         child: SvgPicture.asset(
                                             'Assets/${state.creditCardFrave.brand}.svg')),
                                     SizedBox(width: 15.0),
-                                    TextFrave(
+                                    CustomText(
                                       text:
                                           '**** **** **** ${state.creditCardFrave.cardNumberHidden}',
                                       fontSize: 18,
@@ -157,12 +158,12 @@ class CheckOutPagePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextFrave(
+                  CustomText(
                       text: 'Delivery Details',
                       fontSize: 19,
                       fontWeight: FontWeight.w600),
                   Divider(),
-                  TextFrave(text: 'Stander Delivery (3-4 days)', fontSize: 18),
+                  CustomText(text: 'Stander Delivery (3-4 days)', fontSize: 18),
                 ],
               ),
             ),
@@ -176,11 +177,11 @@ class CheckOutPagePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextFrave(
+                  CustomText(
                     text: 'Total',
                     fontSize: 19,
                   ),
-                  TextFrave(
+                  CustomText(
                     text: '\$ ${productBloc.state.total}',
                     fontSize: 19,
                   )
@@ -191,7 +192,7 @@ class CheckOutPagePage extends StatelessWidget {
               margin: EdgeInsets.only(top: 15.0),
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
               alignment: Alignment.bottomCenter,
-              child: BtnFrave(
+              child: CustomButton(
                 text: 'Pay',
                 height: 55,
                 fontSize: 22,
@@ -229,11 +230,11 @@ class _OrderDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextFrave(
+              CustomText(
                 text: 'Order',
                 fontSize: 19,
               ),
-              TextFrave(
+              CustomText(
                 text: '\$ ${productBloc.state.total}',
                 fontSize: 19,
               )
@@ -243,11 +244,11 @@ class _OrderDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextFrave(
+              CustomText(
                 text: 'Delivery',
                 fontSize: 19,
               ),
-              TextFrave(
+              CustomText(
                 text: '\$ ${productBloc.state.delivery}',
                 fontSize: 19,
               )
@@ -257,11 +258,11 @@ class _OrderDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextFrave(
+              CustomText(
                 text: 'Insurance',
                 fontSize: 19,
               ),
-              TextFrave(
+              CustomText(
                 text: '\$ ${productBloc.state.insurance}',
                 fontSize: 19,
               )
@@ -284,7 +285,7 @@ class _PromoCode extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextFrave(
+          CustomText(
             text: 'Promo',
             fontSize: 19,
           ),
@@ -318,7 +319,7 @@ class _PromoCode extends StatelessWidget {
                     color: Color(0xff0C6CF2),
                     borderRadius: BorderRadius.circular(5.0)),
                 child: Center(
-                    child: TextFrave(
+                    child: CustomText(
                   text: 'Use Code',
                   color: Colors.white,
                   fontSize: 18,

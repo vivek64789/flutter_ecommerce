@@ -5,7 +5,7 @@ import 'package:e_commers/Models/Product.dart';
 import 'package:e_commers/Views/Cart/CartPage.dart';
 import 'package:e_commers/Views/Home/HomePage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
-import 'package:e_commers/Widgets/TextFrave.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -39,7 +39,7 @@ class DetailsProductPage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Wrap(
                     children: [
-                      TextFrave(
+                      CustomText(
                         text: product.nameProduct,
                         fontSize: 25,
                       )
@@ -49,7 +49,7 @@ class DetailsProductPage extends StatelessWidget {
                 SizedBox(height: 10.0),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: TextFrave(
+                  child: CustomText(
                       text: '\$ ${product.price}',
                       fontSize: 30,
                       fontWeight: FontWeight.bold),
@@ -87,7 +87,7 @@ class DetailsProductPage extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 3.0, horizontal: 10.0),
                     color: Color(0xff8956FF),
-                    child: TextFrave(
+                    child: CustomText(
                         text: 'Shipping normally',
                         fontSize: 18,
                         color: Colors.white),
@@ -99,11 +99,11 @@ class DetailsProductPage extends StatelessWidget {
                   child: Container(
                     child: Row(
                       children: [
-                        TextFrave(
+                        CustomText(
                             text: 'Available. ',
                             fontSize: 18,
                             color: Colors.green),
-                        TextFrave(
+                        CustomText(
                           text: 'In Stock',
                           fontSize: 18,
                         ),
@@ -114,7 +114,7 @@ class DetailsProductPage extends StatelessWidget {
                 SizedBox(height: 20.0),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: TextFrave(
+                  child: CustomText(
                       text: 'Description',
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
@@ -124,14 +124,14 @@ class DetailsProductPage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Wrap(
                     children: [
-                      TextFrave(text: product.description, fontSize: 17)
+                      CustomText(text: product.description, fontSize: 17)
                     ],
                   ),
                 ),
                 SizedBox(height: 30.0),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: TextFrave(
+                  child: CustomText(
                       text: 'Payment methods',
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
@@ -183,7 +183,7 @@ class DetailsProductPage extends StatelessWidget {
                         style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0))),
-                        child: TextFrave(text: 'Add To Cart', fontSize: 20),
+                        child: CustomText(text: 'Add To Cart', fontSize: 20),
                         onPressed: () async {
                           modalAddCartSuccess(context, product.picture);
 
@@ -214,7 +214,7 @@ class DetailsProductPage extends StatelessWidget {
                         style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0))),
-                        child: TextFrave(
+                        child: CustomText(
                             text: 'Buy Now', fontSize: 20, color: Colors.white),
                         onPressed: () {
                           final productSelect = ProductCart(
@@ -265,7 +265,7 @@ class _RaitingProduct extends StatelessWidget {
               ),
             ),
           ),
-          TextFrave(text: '124 Reviews', fontSize: 17, color: Colors.grey)
+          CustomText(text: '124 Reviews', fontSize: 17, color: Colors.grey)
         ],
       ),
     );

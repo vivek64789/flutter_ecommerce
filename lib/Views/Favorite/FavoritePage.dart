@@ -4,7 +4,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:e_commers/Controller/ProductController.dart';
 import 'package:e_commers/Models/Product/FavoriteProduct.dart';
 import 'package:e_commers/Widgets/BottomNavigationFrave.dart';
-import 'package:e_commers/Widgets/TextFrave.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
 
 class FavoritePage extends StatelessWidget {
   @override
@@ -14,7 +14,7 @@ class FavoritePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xffF5F5F5),
       appBar: AppBar(
-        title: TextFrave(
+        title: CustomText(
           text: 'Favorites',
           color: Colors.black,
         ),
@@ -107,12 +107,12 @@ class ProductFavorite extends StatelessWidget {
             Image.network(
                 'http://192.168.1.68:5002/' + product.productId.picture,
                 height: 140),
-            TextFrave(
+            CustomText(
                 text: product.productId.nameProduct,
                 fontSize: 17,
                 textOverflow: TextOverflow.ellipsis),
             SizedBox(height: 10.0),
-            TextFrave(
+            CustomText(
                 text: '\$ ${product.productId.price}',
                 fontSize: 21,
                 fontWeight: FontWeight.bold),

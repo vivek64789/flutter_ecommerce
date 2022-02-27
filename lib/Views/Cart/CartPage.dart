@@ -3,8 +3,8 @@ import 'package:e_commers/Views/Cart/CheckoutPage.dart';
 import 'package:e_commers/Views/Home/HomePage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:flutter/material.dart';
-import 'package:e_commers/Widgets/TextFrave.dart';
-import 'package:e_commers/Widgets/btnFrave.dart';
+import 'package:e_commers/Widgets/CustomText.dart';
+import 'package:e_commers/Widgets/CustomButton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -44,12 +44,12 @@ class CartPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextFrave(
+                        CustomText(
                             text: 'Total',
                             fontSize: 23,
                             fontWeight: FontWeight.w600),
                         BlocBuilder<ProductBloc, ProductState>(
-                          builder: (context, state) => TextFrave(
+                          builder: (context, state) => CustomText(
                               text: '\$ ${state.total.toStringAsFixed(2)}',
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -59,7 +59,7 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 18.0),
-                  BtnFrave(
+                  CustomButton(
                     text: 'Checkout',
                     borderRadius: 50,
                     fontSize: 22,
@@ -138,7 +138,7 @@ class _DetailsProducts extends StatelessWidget {
                             children: [
                               Container(
                                   width: 205,
-                                  child: TextFrave(
+                                  child: CustomText(
                                       text: state.products[i].name,
                                       fontSize: 19,
                                       textOverflow: TextOverflow.ellipsis)),
@@ -151,7 +151,7 @@ class _DetailsProducts extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 10.0),
-                        TextFrave(
+                        CustomText(
                             text: '\$ ${state.products[i].price}',
                             fontSize: 22,
                             fontWeight: FontWeight.w600),
@@ -186,7 +186,7 @@ class _DetailsProducts extends StatelessWidget {
                                 width: 35,
                                 color: Colors.white,
                                 child: Center(
-                                    child: TextFrave(
+                                    child: CustomText(
                                         text: '${state.products[i].amount}',
                                         fontSize: 18)),
                               ),
@@ -243,21 +243,21 @@ class _AppBarCart extends StatelessWidget {
               ),
               SizedBox(width: 20.0),
               Container(
-                  child: TextFrave(
+                  child: CustomText(
                       text: 'My Cart',
                       fontSize: 24,
                       fontWeight: FontWeight.w600)),
             ],
           ),
           Container(child: BlocBuilder<ProductBloc, ProductState>(
-              // builder: (_, state) => TextFrave(text: '${state.products.length} items', fontSize: 19, color: Colors.black54 ),
+              // builder: (_, state) => CustomText(text: '${state.products.length} items', fontSize: 19, color: Colors.black54 ),
               builder: (_, state) {
             if (state.products == null) {
-              return TextFrave(
+              return CustomText(
                   text: '0 items', fontSize: 19, color: Colors.black54);
             }
 
-            return TextFrave(
+            return CustomText(
                 text: '${state.products.length} items',
                 fontSize: 19,
                 color: Colors.black54);
@@ -280,9 +280,9 @@ class WithoutProducts extends StatelessWidget {
                     Icon(Icons.shopping_bag_outlined,
                         size: 90, color: Color(0xff0C6CF2).withOpacity(.7)),
                     SizedBox(height: 20),
-                    TextFrave(text: 'There is a cart to fill!', fontSize: 18),
+                    CustomText(text: 'There is a cart to fill!', fontSize: 18),
                     SizedBox(height: 20),
-                    TextFrave(
+                    CustomText(
                         text:
                             'Currently do not have any products in your shopping cart',
                         fontSize: 16),
@@ -296,7 +296,7 @@ class WithoutProducts extends StatelessWidget {
                             padding: MaterialStateProperty.all(
                                 EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 10))),
-                        child: TextFrave(text: 'Go Products', fontSize: 10.h),
+                        child: CustomText(text: 'Go Products', fontSize: 10.h),
                         onPressed: () => Navigator.of(context).pushReplacement(
                             rutaFrave(
                                 page: HomePage(), curved: Curves.easeInOut)),

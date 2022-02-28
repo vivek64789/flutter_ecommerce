@@ -126,8 +126,7 @@ class _ListProfileState extends State<ListProfile> {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: NetworkImage(baseServerUrl +
-                                            "/" +
+                                        image: NetworkImage(publicServerUrl +
                                             state.profile.toString()))),
                               ),
                             )),

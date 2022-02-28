@@ -72,11 +72,11 @@ class DetailsProductPage extends StatelessWidget {
                               TextSpan(
                                   text: 'This product has a ',
                                   style: GoogleFonts.getFont('Roboto',
-                                      color: Colors.black, fontSize: 18)),
+                                      color: Colors.black, fontSize: 15.sm)),
                               TextSpan(
                                   text: 'delivery guarantee',
                                   style: GoogleFonts.getFont('Roboto',
-                                      color: Colors.blue, fontSize: 18))
+                                      color: Colors.blue, fontSize: 15.sm))
                             ]),
                           )
                         ],
@@ -89,10 +89,13 @@ class DetailsProductPage extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 3.0, horizontal: 10.0),
                     color: Color(0xff8956FF),
-                    child: CustomText(
-                        text: 'Shipping normally',
-                        fontSize: 18,
-                        color: Colors.white),
+                    child: Container(
+                      width: 20.sm,
+                      child: CustomText(
+                          text: 'Shipping normally',
+                          fontSize: 14.sm,
+                          color: Colors.white),
+                    ),
                   ),
                 ),
                 SizedBox(height: 20.0),
@@ -153,11 +156,11 @@ class DetailsProductPage extends StatelessWidget {
                         'Assets/mastercard.svg',
                         height: 60,
                       ),
-                      SvgPicture.asset(
-                        'Assets/american express.svg',
-                        height: 60,
-                      ),
-                      SvgPicture.asset('Assets/paypal.svg', height: 55),
+                      // SvgPicture.asset(
+                      //   'Assets/american express.svg',
+                      //   height: 60,
+                      // ),
+                      // SvgPicture.asset('Assets/paypal.svg', height: 55),
                     ],
                   ),
                 )

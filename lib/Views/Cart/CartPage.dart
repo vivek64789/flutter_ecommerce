@@ -125,7 +125,7 @@ class _DetailsProducts extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                        width: 80.sm,
+                        width: 60.w,
                         child: Image.network(
                             publicServerUrl + state.products[i].image)),
                     SizedBox(width: 10.0),

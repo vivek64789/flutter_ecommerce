@@ -19,21 +19,20 @@ class HomeScreenPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 180,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('Assets/logo-white.png'),
-                          ),
-                        ),
+                      CustomText(
+                        text: 'Welcome to',
+                        fontSize: 20,
+                        color: Colors.white,
                       ),
                       SizedBox(height: 15.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomText(
-                              text: 'FRAVE', fontSize: 32, color: Colors.white),
+                            text: 'My',
+                            fontSize: 32,
+                            color: Colors.white,
+                          ),
                           CustomText(
                               text: ' SHOP',
                               fontSize: 32,
@@ -42,7 +41,7 @@ class HomeScreenPage extends StatelessWidget {
                         ],
                       ),
                       CustomText(
-                        text: 'All your products in your hands',
+                        text: 'Find All Products Quickly',
                         fontSize: 20,
                         color: Colors.white60,
                       ),
@@ -57,33 +56,27 @@ class HomeScreenPage extends StatelessWidget {
                     physics: BouncingScrollPhysics(),
                     children: [
                       CustomButton(
-                          text: 'Sign Up with Email ID',
+                          text: 'Sign Up',
                           color: Color(0xff1C2834),
                           onPressed: () =>
                               Navigator.of(context).pushNamed('signUpPage')),
                       SizedBox(height: 15.0),
-                      CustomButton(
-                        text: 'Sign Up with Google',
-                        color: Color(0xFFE9EFF9),
-                        textColor: Colors.black,
-                      ),
-                      SizedBox(height: 10.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomText(
                               text: 'Already have an account?', fontSize: 17),
-                          TextButton(
-                            child: CustomText(
-                                text: 'Sign In',
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                            onPressed: () =>
-                                Navigator.of(context).pushNamed('signInPage'),
-                          ),
                         ],
                       ),
+                      SizedBox(height: 15.0),
+                      CustomButton(
+                        text: 'Sign In',
+                        color: Color(0xFFE9EFF9),
+                        textColor: Colors.black,
+                        onPressed: () =>
+                            Navigator.of(context).pushNamed('signInPage'),
+                      ),
+                      SizedBox(height: 10.0),
                     ],
                   ),
                 ),

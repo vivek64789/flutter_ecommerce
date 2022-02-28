@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:e_commers/Bloc/Auth/auth_bloc.dart';
 import 'package:e_commers/Bloc/General/general_bloc.dart';
@@ -18,8 +20,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proximity_sensor/proximity_sensor.dart';
 import 'package:shake/shake.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,6 +32,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ShakeDetector detector;
+  bool _isNear = false;
+  StreamSubscription<dynamic> _streamSubscription;
 
   @override
   void initState() {
@@ -37,41 +43,56 @@ class _HomePageState extends State<HomePage> {
       onPhoneShake: () {
         print("Shake");
         return showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text("Log Out"),
-                content: Text("Are you sure, want to log out?"),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "CANCEL",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Log Out"),
+              content: Text("Are you sure, want to log out?"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "CANCEL",
+                    style: TextStyle(
+                      color: Colors.grey,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      BlocProvider.of<AuthBloc>(context).add(LogOutEvent());
-                    },
-                    child: Text("LOG OUT"),
-                  ),
-                ],
-              );
-            });
+                ),
+                TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AuthBloc>(context).add(LogOutEvent());
+                  },
+                  child: Text("LOG OUT"),
+                ),
+              ],
+            );
+          },
+        );
       },
     );
+    listenProximitySensor();
     super.initState();
+  }
+
+  Future<void> listenProximitySensor() async {
+    FlutterError.onError = (FlutterErrorDetails details) {
+      if (foundation.kDebugMode) {
+        FlutterError.dumpErrorToConsole(details);
+      }
+    };
+    _streamSubscription = ProximitySensor.events.listen((int event) {
+      setState(() {
+        _isNear = (event > 0) ? true : false;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
+    _isNear ? print("Near") : print("Far");
     return Scaffold(
       backgroundColor: Color(0xfff5f5f5),
       body: Stack(
@@ -80,9 +101,9 @@ class _HomePageState extends State<HomePage> {
             listener: (context, state) {
               if (state is LogOutState) {
                 Navigator.pushReplacement(
-                    context,
-                    customRoute(
-                        page: HomeScreenPage(), curved: Curves.easeInOut));
+                  context,
+                  customRoute(page: HomeScreenPage(), curved: Curves.easeInOut),
+                );
               }
             },
             child: ListHome(),
@@ -90,11 +111,14 @@ class _HomePageState extends State<HomePage> {
           Positioned(
             bottom: 20,
             child: Container(
-                width: size.width,
-                child: Align(
-                    child: BlocBuilder<GeneralBloc, GeneralState>(
-                        builder: (context, state) => BottomNavigationFrave(
-                            index: 0, showMenu: state.showMenuHome)))),
+              width: size.width,
+              child: Align(
+                child: BlocBuilder<GeneralBloc, GeneralState>(
+                  builder: (context, state) => BottomNavigationFrave(
+                      index: 0, showMenu: state.showMenuHome),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -196,20 +220,19 @@ class _ListHomeState extends State<ListHome> {
                                     color: Color(0xff0C6CF2),
                                     shape: BoxShape.circle),
                                 child: Center(
-                                    child: BlocBuilder<ProductBloc,
-                                            ProductState>(
-                                        builder: (context, state) => state
-                                                    .amount ==
-                                                0
-                                            ? CustomText(
-                                                text: '0',
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)
-                                            : CustomText(
-                                                text:
-                                                    '${state.products.length}',
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold))),
+                                  child: BlocBuilder<ProductBloc, ProductState>(
+                                    builder: (context, state) => state.amount ==
+                                            0
+                                        ? CustomText(
+                                            text: '0',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)
+                                        : CustomText(
+                                            text: '${state.products.length}',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                ),
                               ),
                             ),
                           )

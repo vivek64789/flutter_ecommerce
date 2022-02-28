@@ -4,12 +4,12 @@ const Carousel = require('../Models/home_carouse');
 const Products = require('../Models/Products');
 
 
-const HomeCarouselSilder = ( req, res = response ) => {
+const HomeCarouselSilder = (req, res = response) => {
 
 
     Carousel.find({}).exec((err, carousel) => {
 
-        if( err ){
+        if (err) {
             return res.status(400).json({
                 resp: false,
                 msj: "error: Without List of images",
@@ -24,82 +24,81 @@ const HomeCarouselSilder = ( req, res = response ) => {
         });
 
     });
-    
+
 
 }
 
 
-const ListCategoriesHome =  async ( req, res = response ) => {
+const ListCategoriesHome = async (req, res = response) => {
 
 
     Category.find({})
-            .limit(10)        
-            .exec((err, listCategories) => {
+        .limit(10)
+        .exec((err, listCategories) => {
 
-        if( err ){
-            return res.status(400).json({
-                resp: false,
-                msj: "error: Without List of Categories",
-                err
+            if (err) {
+                return res.status(400).json({
+                    resp: false,
+                    msj: "error: Without List of Categories",
+                    err
+                });
+            }
+
+            res.json({
+                resp: true,
+                msj: 'List categories',
+                categories: listCategories
             });
-        }
 
-        res.json({
-            resp: true,
-            msj : 'List categories',
-            categories : listCategories
         });
-
-    });
 
 }
 
 
-const ListProductsHome = async ( req, res = response ) => {
+const ListProductsHome = async (req, res = response) => {
 
 
     Products.find({})
-            .populate('category_id', 'category')
-            .exec((err, productsdb) => {
-                console.log(productsdb);
-                if( err ){
-                    return res.status(500).json({
-                        resp: false,
-                        msj : 'Error: Without List Products' 
-                    });
-                }
-
-                res.json({
-                    resp: true,
-                    msj : 'List Products Home',
-                    products: productsdb 
+        .populate('category_id', 'category')
+        .exec((err, productsdb) => {
+            if (err) {
+                return res.status(500).json({
+                    resp: false,
+                    msj: 'Error: Without List Products'
                 });
+            }
 
+            res.json({
+                resp: true,
+                msj: 'List Products Home',
+                products: productsdb
             });
+
+        });
 }
 
 
-const ListCategoriesAll = async ( req, res = response ) => {
+const ListCategoriesAll = async (req, res = response) => {
 
 
-    Category.find({})    
-            .exec((err, listCategories) => {
+    Category.find({})
+        .exec((err, listCategories) => {
 
-        if( err ){
-            return res.status(400).json({
-                resp: false,
-                msj: "error: Without List of Categories",
-                err
+            if (err) {
+                return res.status(400).json({
+                    resp: false,
+                    msj: "error: Without List of Categories",
+                    err
+                });
+            }
+
+            res.json({
+                resp: true,
+                msj: 'List Categories All',
+                categories: listCategories
             });
-        }
 
-        res.json({
-            resp: true,
-            msj : 'List Categories All',
-            categories : listCategories
         });
-
-    });
 }
 
 

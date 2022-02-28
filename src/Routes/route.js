@@ -9,7 +9,7 @@ const { uploadsProfile } = require('../Helpers/Multer');
 const { uploadPicture } = require('../Helpers/uploadPictureMulter');
 const { HomeCarouselSilder, ListCategoriesHome, ListProductsHome, ListCategoriesAll } = require('../Controller/HomeController');
 const { addFavoriteProduct, productFavoriteForUser, saveOrderProducts, getPurchasedProducts, getProductsForCategories } = require('../Controller/ProductController');
-const { AddhomeCarousel, addCategoryStatic, addProductsStatic, updateCategory, deleteCategory, addCategory, addProduct,getCategoryById } = require('../Controller/StaticDataController');
+const { AddhomeCarousel, addCategoryStatic, addProductsStatic, updateCategory,deleteProduct, updateProduct, deleteCategory, addCategory,getProduct, addProduct, getCategoryById } = require('../Controller/StaticDataController');
 
 const router = Router();
 
@@ -63,6 +63,9 @@ router.get('/api/category/:id' , getCategoryById);
 router.post('/api/category' , addCategory);
 router.put('/api/category' , updateCategory);
 router.delete('/api/category' , deleteCategory);
-router.get('/api/add-product' , addProduct);
+router.get('/api/product' , getProduct);
+router.post('/api/product' , addProduct);
+router.delete('/api/product' , deleteProduct);
+router.put('/api/product' , updateProduct);
 
 module.exports = router ;    

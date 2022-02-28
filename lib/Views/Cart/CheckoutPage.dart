@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -403,11 +404,13 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
                 fontSize: 22,
                 onPressed: () async {
                   // await makePayment(productBloc.state.total * 100);
-                  await notify();
+                  // await notify();
 
                   cartBloc.add(
                     OnMakePayment(amount: productBloc.state.total * 100),
                   );
+
+                  // Notification new
                 },
               ),
             )

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:e_commers/Widgets/CustomButton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CartPage extends StatelessWidget {
@@ -194,7 +195,33 @@ class _DetailsProducts extends StatelessWidget {
                                         fontSize: 18)),
                               ),
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                  // Notification new
+                                  FlutterLocalNotificationsPlugin
+                                      flutterLocalNotificationsPlugin =
+                                      FlutterLocalNotificationsPlugin();
+                                  const AndroidNotificationDetails
+                                      androidPlatformChannelSpecifics =
+                                      AndroidNotificationDetails(
+                                          'your channel id',
+                                          'your channel name',
+                                          channelDescription:
+                                              'your channel description',
+                                          importance: Importance.max,
+                                          priority: Priority.high,
+                                          ticker: 'ticker');
+                                  const NotificationDetails
+                                      platformChannelSpecifics =
+                                      NotificationDetails(
+                                          android:
+                                              androidPlatformChannelSpecifics);
+                                  await flutterLocalNotificationsPlugin.show(
+                                      0,
+                                      'plain title',
+                                      'plain body',
+                                      platformChannelSpecifics,
+                                      payload: 'item x');
+                                  // Notification new
                                   productBloc.add(PlusQuantityProduct(plus: i));
                                 },
                                 child: Container(

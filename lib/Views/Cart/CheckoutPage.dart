@@ -120,6 +120,11 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
 
         } else if (state is SuccessPaymentState) {
           Navigator.pop(context);
+          productBloc.add(SaveProductsBuy(
+              date: DateTime.now().toString(),
+              amount: '${productBloc.state.total}',
+              product: productBloc.product));
+          productBloc.add(ClearProductsEvent());
           modalPayment(context);
         } else if (state is FailurePaymentState) {
           Navigator.pop(context);
@@ -292,12 +297,6 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
                   cartBloc.add(
                     OnMakePayment(amount: productBloc.state.total * 100),
                   );
-
-                  productBloc.add(SaveProductsBuy(
-                      date: DateTime.now().toString(),
-                      amount: '${productBloc.state.total}',
-                      product: productBloc.product));
-                  productBloc.add(ClearProductsEvent());
                 },
               ),
             )

@@ -10,6 +10,7 @@ import 'package:e_commers/Models/Home/ProductsHome.dart';
 import 'package:e_commers/Views/Cart/CartPage.dart';
 import 'package:e_commers/Views/Products/DetailsProductPage.dart';
 import 'package:e_commers/Views/Categories/CategoriesPage.dart';
+import 'package:e_commers/Views/Start/HomeScreenPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Widgets/BottomNavigationFrave.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
@@ -17,9 +18,56 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shake/shake.dart';
 import 'package:shimmer/shimmer.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  ShakeDetector detector;
+
+  @override
+  void initState() {
+    // Shake
+    print("Before shake");
+    detector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        print("Shake");
+        return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text("Log Out"),
+                content: Text("Are you sure, want to log out?"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      "CANCEL",
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      BlocProvider.of<AuthBloc>(context).add(LogOutEvent());
+                    },
+                    child: Text("LOG OUT"),
+                  ),
+                ],
+              );
+            });
+      },
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -28,7 +76,17 @@ class HomePage extends StatelessWidget {
       backgroundColor: Color(0xfff5f5f5),
       body: Stack(
         children: [
-          ListHome(),
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state is LogOutState) {
+                Navigator.pushReplacement(
+                    context,
+                    customRoute(
+                        page: HomeScreenPage(), curved: Curves.easeInOut));
+              }
+            },
+            child: ListHome(),
+          ),
           Positioned(
             bottom: 20,
             child: Container(

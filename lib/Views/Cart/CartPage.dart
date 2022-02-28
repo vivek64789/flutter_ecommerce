@@ -123,6 +123,8 @@ class _DetailsProducts extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20.0),
                     color: Color(0xffF5F5F5)),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Container(
                         width: 60.w,

@@ -20,11 +20,14 @@ class HomeScreenPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                          height: 180,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('Assets/logo-white.png')))),
+                        height: 180,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('Assets/logo-white.png'),
+                          ),
+                        ),
+                      ),
                       SizedBox(height: 15.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

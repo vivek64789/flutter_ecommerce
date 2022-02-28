@@ -43,6 +43,7 @@ dependencies:
   awesome_notifications: ^0.6.21
   watch_connectivity: ^0.1.0
   flutter_local_notifications: ^9.3.3
+  mockito: ^5.1.0
 
 dev_dependencies:
   flutter_test:

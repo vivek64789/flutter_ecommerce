@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +17,6 @@ import 'package:e_commers/Widgets/CustomButton.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:watch_connectivity/watch_connectivity.dart';
 
 class CheckOutPagePage extends StatefulWidget {
   @override
@@ -26,19 +24,6 @@ class CheckOutPagePage extends StatefulWidget {
 }
 
 class _CheckOutPagePageState extends State<CheckOutPagePage> {
-  // Watch connection variables
-  final _watch = WatchConnectivity();
-
-  var _count = 0;
-
-  var _paired = false;
-  var _reachable = false;
-  var _context = <String, dynamic>{};
-  var _receivedContexts = <Map<String, dynamic>>[];
-  final _log = <String>[];
-
-  //  Watch variables finished
-
   // init state
   @override
   void initState() {
@@ -49,8 +34,8 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
         NotificationChannel(
           channelGroupKey: 'basic_tests',
           channelKey: 'basic_channel',
-          channelName: 'Basic notifications',
-          channelDescription: 'Notification channel for basic tests',
+          channelName: 'Payment Successful',
+          channelDescription: 'Your order is successfully placed',
           defaultColor: Color(0xFF9D50DD),
           ledColor: Colors.white,
           importance: NotificationImportance.High,
@@ -64,26 +49,8 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
             channelGroupkey: 'basic_tests', channelGroupName: 'Basic tests'),
       ],
     );
-    // Watch init
 
-    initPlatformState();
-
-    _watch.messageStream
-        .listen((e) => setState(() => _log.add('Received message: $e')));
-    _watch.contextStream
-        .listen((e) => setState(() => _log.add('Received context: $e')));
-    // Watch init
     super.initState();
-  }
-
-// watch connection
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    _paired = await _watch.isPaired;
-    _reachable = await _watch.isReachable;
-    _context = await _watch.applicationContext;
-    _receivedContexts = await _watch.receivedApplicationContexts;
-    setState(() {});
   }
 
   String _paymentApiUrl = "https://api.stripe.com/v1/payment_intents";
@@ -99,16 +66,15 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
   // ============= notification =====================
 
   //  Notification check
-  void notify() async {
+  void notify({String title, String description, String image}) async {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
           id: 1,
           channelKey: 'basic_channel',
-          title: 'Title for your notification',
-          body: 'body text/ content',
+          title: title,
+          body: description,
           notificationLayout: NotificationLayout.BigPicture,
-          bigPicture:
-              'https://images.idgesg.net/images/article/2019/01/android-q-notification-inbox-100785464-large.jpg?auto=webp&quality=85,70'),
+          bigPicture: image),
     );
   }
 
@@ -189,6 +155,11 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
           // modalLoading(context, 'Making payment...');
 
         } else if (state is SuccessPaymentState) {
+          notify(
+              title: "Payment successful",
+              description: "Your order is Successfully placed",
+              image:
+                  "https://cdn1.vectorstock.com/i/1000x1000/63/65/green-check-mark-icon-in-a-circle-tick-symbol-vector-37776365.jpg");
           Navigator.pop(context);
           productBloc.add(SaveProductsBuy(
               date: DateTime.now().toString(),
@@ -197,6 +168,12 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
           productBloc.add(ClearProductsEvent());
           modalPayment(context);
         } else if (state is FailurePaymentState) {
+          notify(
+            title: "Payment unsuccessful",
+            description: "Your order is canceled or failed",
+            image:
+                "https://thumbs.dreamstime.com/b/red-cross-symbol-icon-as-delete-remove-fail-failure-incorr-incorrect-answer-89999776.jpg",
+          );
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -221,44 +198,6 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
         ),
         body: ListView(
           children: [
-            // Watch data
-            Text('Paired: $_paired'),
-            Text('Reachable: $_reachable'),
-            Text('Context: $_context'),
-            Text('Received contexts: $_receivedContexts'),
-            TextButton(
-              child: const Text('Refresh'),
-              onPressed: initPlatformState,
-            ),
-            const SizedBox(height: 8),
-            const Text('Send'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  child: const Text('Message'),
-                  onPressed: () {
-                    final message = {'data': 'Hello'};
-                    _watch.sendMessage(message);
-                    setState(() => _log.add('Sent message: $message'));
-                  },
-                ),
-                const SizedBox(width: 8),
-                TextButton(
-                  child: const Text('Context'),
-                  onPressed: () {
-                    _count++;
-                    final context = {'data': _count};
-                    _watch.updateApplicationContext(context);
-                    setState(() => _log.add('Sent context: $context'));
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(width: 8),
-            const Text('Log'),
-            ..._log.reversed.map((e) => Text(e)),
-            // Watch data
             Container(
               margin: EdgeInsets.only(top: 10.0),
               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
@@ -404,11 +343,10 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
                 fontSize: 22,
                 onPressed: () async {
                   // await makePayment(productBloc.state.total * 100);
-                  // await notify();
-
-                  cartBloc.add(
-                    OnMakePayment(amount: productBloc.state.total * 100),
-                  );
+                  await Stripe.instance.presentPaymentSheet();
+                  // cartBloc.add(
+                  //   OnMakePayment(amount: productBloc.state.total * 100),
+                  // );
 
                   // Notification new
                 },

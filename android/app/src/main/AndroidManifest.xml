@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.e_commers">
+    package="com.example.fashionfeet">
     <uses-permission android:name="android.permission.INTERNET"/>
     <queries>
         <intent>
@@ -7,9 +7,9 @@
         </intent>
     </queries>
    <application
-        android:label="Frave Shop"
+        android:label="Fashion Feet"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

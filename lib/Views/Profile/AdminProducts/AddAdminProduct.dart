@@ -16,10 +16,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddAdminProduct extends StatefulWidget {
-  String category;
-  String id;
+  Product product;
   bool isUpdate = false;
-  AddAdminProduct({this.category, this.id, this.isUpdate});
+  AddAdminProduct({this.product, this.isUpdate});
 
   @override
   _AddAdminProductState createState() => _AddAdminProductState();
@@ -27,15 +26,47 @@ class AddAdminProduct extends StatefulWidget {
 
 class _AddAdminProductState extends State<AddAdminProduct> {
   TextEditingController categoryController = TextEditingController();
-  var category = "";
-  var id = "";
+  Product product = Product(
+      id: "",
+      categoryId: CategoryId(id: "", category: ""),
+      codeProduct: "",
+      description: "",
+      nameProduct: "",
+      picture: "",
+      price: 0.0,
+      status: "",
+      stock: 0,
+      v: 0);
   bool isUpdate = false;
   final _keyForm = GlobalKey<FormState>();
 
   @override
   void initState() {
-    category = widget.category;
-    id = widget.id;
+    if (widget.product?.id != null) {
+      product = widget.product;
+      // isUpdate = true;
+    }
+
+    // product.categoryId=
+    // widget.product.categoryId;
+    // product.codeProduct=
+    // widget.product.codeProduct;
+    // procuct.description=
+    // widget.product.description;
+    // id=
+    // widget.product.id;
+    // nameProduct=
+    // widget.product.nameProduct;
+    // picture=
+    // widget.product.picture;
+    // price=
+    // widget.product.price;
+    // status=
+    // widget.product.status;
+    // stock=
+    // widget.product.stock;
+    // v=
+    // widget.product.v;
     isUpdate = widget.isUpdate == null ? false : widget.isUpdate;
     super.initState();
   }
@@ -81,7 +112,8 @@ class _AddAdminProductState extends State<AddAdminProduct> {
             backgroundColor: Colors.white,
             elevation: 0,
             title: CustomText(
-                text: isUpdate ? "Update $category" : 'Add Product',
+                text:
+                    isUpdate ? "Update ${product.nameProduct}" : 'Add Product',
                 color: Colors.black),
             centerTitle: true,
             leading: IconButton(
@@ -103,8 +135,8 @@ class _AddAdminProductState extends State<AddAdminProduct> {
               SizedBox(height: 10.0),
               TextFormField(
                 decoration: InputDecoration(hintText: "Enter Product Name"),
-                initialValue: category,
-                onChanged: (value) => category = value,
+                initialValue: product.nameProduct,
+                onChanged: (value) => product.nameProduct = value,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter product';
@@ -116,8 +148,8 @@ class _AddAdminProductState extends State<AddAdminProduct> {
               TextFormField(
                 decoration:
                     InputDecoration(hintText: "Enter Product Description"),
-                initialValue: category,
-                onChanged: (value) => category = value,
+                initialValue: product.description,
+                onChanged: (value) => product.description = value,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter category';
@@ -128,9 +160,9 @@ class _AddAdminProductState extends State<AddAdminProduct> {
               SizedBox(height: 20.0),
               TextFormField(
                 decoration: InputDecoration(hintText: "Enter Product Code"),
-                initialValue: category,
+                initialValue: product.codeProduct,
                 keyboardType: TextInputType.number,
-                onChanged: (value) => category = value,
+                onChanged: (value) => product.codeProduct = value,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter category';
@@ -143,8 +175,8 @@ class _AddAdminProductState extends State<AddAdminProduct> {
                 decoration:
                     InputDecoration(hintText: "Enter Total Stock Quantity"),
                 keyboardType: TextInputType.number,
-                initialValue: category,
-                onChanged: (value) => category = value,
+                initialValue: product.stock.toString(),
+                onChanged: (value) => product.stock = int.parse(value),
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter category';
@@ -156,8 +188,8 @@ class _AddAdminProductState extends State<AddAdminProduct> {
               TextFormField(
                 decoration: InputDecoration(hintText: "Enter Price"),
                 keyboardType: TextInputType.number,
-                initialValue: category,
-                onChanged: (value) => category = value,
+                initialValue: product.price.toString(),
+                onChanged: (value) => product.price = double.parse(value),
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter category';
@@ -166,25 +198,39 @@ class _AddAdminProductState extends State<AddAdminProduct> {
                 },
               ),
               SizedBox(height: 20.0),
-              DropdownSearch<Category>(
+              FutureBuilder<List<Category>>(
+                future: dbHomeController.getListCategories(),
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? DropdownSearch<Category>(
+                          // selectedItem: snapshot.data[0],
+                          mode: Mode.BOTTOM_SHEET,
+                          items: snapshot.data,
+                          dropdownSearchDecoration: InputDecoration(
+                            hintText: "Select a Category",
+                            labelText: "Select Category",
+                            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                          ),
+                          // onFind: (String filter) => getData(filter),
+                          itemAsString: (Category p) => p.category.toString(),
+                          onChanged: (Category data) => product.categoryId =
+                              CategoryId(category: data.category, id: data.id),
+                        )
+                      : Container();
+                },
+              ),
+              SizedBox(height: 20.0),
+              DropdownSearch<String>(
+                // selectedItem: snapshot.data[0],
                 mode: Mode.BOTTOM_SHEET,
-                items: getCategoriesList(),
-                
-                // onFind: (String filter) => getData(filter),
-                itemAsString: (Category p) => p.category.toString(),
-                onChanged: (Category data) => print(data),
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                decoration: InputDecoration(hintText: "Enter Product Name"),
-                initialValue: category,
-                onChanged: (value) => category = value,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter category';
-                  }
-                  return null;
-                },
+                items: ["Active", "Disabled"],
+                dropdownSearchDecoration: InputDecoration(
+                  hintText: "Select a Status",
+                  labelText: "Status",
+                  contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                ),
+                itemAsString: (String p) => p,
+                onChanged: (String data) => product.status = data,
               ),
               SizedBox(height: 20.0),
               Row(
@@ -208,7 +254,7 @@ class _AddAdminProductState extends State<AddAdminProduct> {
                         child: TextButton(
                           onPressed: () => changePicture(context),
                           child: CustomText(
-                            text: 'Choose Category Picture',
+                            text: 'Choose Product Image',
                             color: Colors.blue,
                             fontSize: 18,
                           ),
@@ -225,17 +271,16 @@ class _AddAdminProductState extends State<AddAdminProduct> {
                 height: 55,
                 onPressed: () {
                   print("This is uploaded image ${uploadBloc.picture}");
+                  product.picture = uploadBloc.picture;
+
                   if (_keyForm.currentState.validate()) {
                     !isUpdate
                         ? adminProductBloc.add(AddProductEvent(
-                            product: category,
-                            picture: uploadBloc.picture,
+                            product: product,
                           ))
                         : adminProductBloc.add(
                             UpdateProductEvent(
-                              id: id,
-                              product: category,
-                              picture: uploadBloc.picture,
+                              product: product,
                             ),
                           );
                   }
@@ -246,13 +291,6 @@ class _AddAdminProductState extends State<AddAdminProduct> {
         ),
       ),
     );
-  }
-
-  List<Category> getCategoriesList() {
-    List<Category> categoryList;
-    dbHomeController.getListCategories().then((value) => categoryList = value);
-    print(categoryList);
-    return categoryList;
   }
 
   File image;

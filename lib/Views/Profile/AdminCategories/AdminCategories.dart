@@ -28,7 +28,7 @@ class AdminCategories extends StatelessWidget {
         ),
       ),
       body: Container(
-        // height: 1.sh,
+        height: 800.sm,
         child: Column(
           children: [
             SizedBox(height: 5.0),

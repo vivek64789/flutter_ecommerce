@@ -105,7 +105,7 @@ class ProductFavorite extends StatelessWidget {
             color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
         child: Column(
           children: [
-            Image.network(baseServerUrl+"/" + product.productId.picture,
+            Image.network(publicServerUrl + product.productId.picture,
                 height: 140),
             CustomText(
                 text: product.productId.nameProduct,

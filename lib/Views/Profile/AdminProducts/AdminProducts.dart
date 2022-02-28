@@ -93,6 +93,7 @@ class _ListProductsState extends State<_ListProducts> {
         child: FutureBuilder<List<Product>>(
           future: dbHomeController.getListProductsHome(),
           builder: (context, snapshot) {
+            print("This is snapsohot of product data ${snapshot.data}");
             List<Product> list = snapshot.data;
 
             return !snapshot.hasData
@@ -137,9 +138,7 @@ class _ListProductsState extends State<_ListProducts> {
                                     onPressed: () {
                                       Navigator.of(context).push(customRoute(
                                           page: AddAdminProduct(
-                                              isUpdate: true,
-                                              category: list[i].nameProduct,
-                                              id: list[i].id),
+                                              isUpdate: true, product: list[i]),
                                           curved: Curves.easeInOut));
                                     },
                                   ),

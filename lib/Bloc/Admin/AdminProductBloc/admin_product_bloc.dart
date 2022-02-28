@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:e_commers/Controller/AdminController.dart';
+import 'package:e_commers/Models/Home/ProductsHome.dart';
 import 'package:meta/meta.dart';
 
 part 'admin_product_event.dart';
@@ -15,10 +16,9 @@ class AdminProductBloc extends Bloc<AdminProductEvent, AdminProductState> {
     if (event is AddProductEvent) {
       yield* _mapAddProduct(
         event.product,
-        event.picture,
       );
     } else if (event is UpdateProductEvent) {
-      yield* _mapUpdateProduct(event.id, event.product, event.picture);
+      yield* _mapUpdateProduct(event.product);
     } else if (event is DeleteProductEvent) {
       yield* _mapDeleteProduct(event.id);
     } else if (event is GetProductDetailsByIdEvent) {
@@ -27,12 +27,12 @@ class AdminProductBloc extends Bloc<AdminProductEvent, AdminProductState> {
   }
 
   Stream<AdminProductState> _mapAddProduct(
-      String product, String picture) async* {
+      Product product) async* {
     try {
       yield LoadingAddProductState();
       await Future.delayed(Duration(seconds: 1));
       final data = await adminController.addProduct(
-          product: product, picture: picture);
+          product: product);
 
       if (data.resp)
         yield AddProductSuccessState();
@@ -44,13 +44,13 @@ class AdminProductBloc extends Bloc<AdminProductEvent, AdminProductState> {
   }
 
   Stream<AdminProductState> _mapUpdateProduct(
-      String id, String product, String picture) async* {
+      Product product) async* {
     try {
       yield LoadingUpdateProductState();
       await Future.delayed(Duration(seconds: 2));
 
       final data = await adminController.updateProduct(
-          id: id, product: product, picture: picture);
+          product: product);
 
       if (data.resp) {
         yield UpdateProductSuccessState();

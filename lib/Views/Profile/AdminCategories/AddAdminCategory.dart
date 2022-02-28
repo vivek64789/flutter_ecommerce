@@ -5,7 +5,6 @@ import 'package:e_commers/Bloc/Upload/upload_bloc.dart';
 import 'package:e_commers/Helpers/LoadingUpload.dart';
 import 'package:e_commers/Helpers/ModalFrave.dart';
 import 'package:e_commers/Helpers/ModalLoading.dart';
-import 'package:e_commers/Widgets/TextFormFrave.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:e_commers/Widgets/CustomButton.dart';
 import 'package:flutter/material.dart';

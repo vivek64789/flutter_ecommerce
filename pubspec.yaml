@@ -40,6 +40,10 @@ dependencies:
   flutter_stripe: ^2.2.0
   shake: ^2.0.0
   proximity_sensor: ^1.0.2
+  awesome_notifications: ^0.6.21
+  watch_connectivity: ^0.1.0
+  wear: ^1.0.0
+  flutter_local_notifications: ^9.3.3
 
 dev_dependencies:
   flutter_test:

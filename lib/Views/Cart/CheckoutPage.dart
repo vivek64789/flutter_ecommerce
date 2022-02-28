@@ -9,15 +9,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_commers/Bloc/Cart/cart_bloc.dart';
 import 'package:e_commers/Bloc/Personal/personal_bloc.dart';
 import 'package:e_commers/Bloc/Product/product_bloc.dart';
-import 'package:e_commers/Helpers/ModalLoading.dart';
 import 'package:e_commers/Helpers/modalPayment.dart';
-import 'package:e_commers/Service/StripeService.dart';
 import 'package:e_commers/Views/Cart/DeliveryPage.dart';
 import 'package:e_commers/Views/Cart/PaymentPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Widgets/CustomButton.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:http/http.dart' as http;
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:watch_connectivity/watch_connectivity.dart';
 
 class CheckOutPagePage extends StatefulWidget {
   @override
@@ -25,11 +25,64 @@ class CheckOutPagePage extends StatefulWidget {
 }
 
 class _CheckOutPagePageState extends State<CheckOutPagePage> {
+  // Watch connection variables
+  final _watch = WatchConnectivity();
+
+  var _count = 0;
+
+  var _paired = false;
+  var _reachable = false;
+  var _context = <String, dynamic>{};
+  var _receivedContexts = <Map<String, dynamic>>[];
+  final _log = <String>[];
+
+  //  Watch variables finished
+
   // init state
   @override
   void initState() {
     _paymentIntentData = {};
+    AwesomeNotifications().initialize(
+      "resource://drawable/logo", // icon for your app notification
+      [
+        NotificationChannel(
+          channelGroupKey: 'basic_tests',
+          channelKey: 'basic_channel',
+          channelName: 'Basic notifications',
+          channelDescription: 'Notification channel for basic tests',
+          defaultColor: Color(0xFF9D50DD),
+          ledColor: Colors.white,
+          importance: NotificationImportance.High,
+          playSound: true,
+          enableLights: true,
+          enableVibration: true,
+        ),
+      ],
+      channelGroups: [
+        NotificationChannelGroup(
+            channelGroupkey: 'basic_tests', channelGroupName: 'Basic tests'),
+      ],
+    );
+    // Watch init
+
+    initPlatformState();
+
+    _watch.messageStream
+        .listen((e) => setState(() => _log.add('Received message: $e')));
+    _watch.contextStream
+        .listen((e) => setState(() => _log.add('Received context: $e')));
+    // Watch init
     super.initState();
+  }
+
+// watch connection
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    _paired = await _watch.isPaired;
+    _reachable = await _watch.isReachable;
+    _context = await _watch.applicationContext;
+    _receivedContexts = await _watch.receivedApplicationContexts;
+    setState(() {});
   }
 
   String _paymentApiUrl = "https://api.stripe.com/v1/payment_intents";
@@ -41,6 +94,22 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
       "pk_test_51Ih5GzHmsIXlXA5B2yqi16ahSis9qPIV9w1dX3M9nsdesNiEIaj7EgqByz8eN0TJlyRZrD8kDKaKdyifNybdZtue00w4N0rVya";
 
   Map<String, dynamic> _paymentIntentData;
+
+  // ============= notification =====================
+
+  //  Notification check
+  void notify() async {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+          id: 1,
+          channelKey: 'basic_channel',
+          title: 'Title for your notification',
+          body: 'body text/ content',
+          notificationLayout: NotificationLayout.BigPicture,
+          bigPicture:
+              'https://images.idgesg.net/images/article/2019/01/android-q-notification-inbox-100785464-large.jpg?auto=webp&quality=85,70'),
+    );
+  }
 
   Future<void> makePayment(double amount) async {
     try {
@@ -128,10 +197,12 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
           modalPayment(context);
         } else if (state is FailurePaymentState) {
           Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  CustomText(text: "Payment failed or canceled", fontSize: 17),
-              backgroundColor: Colors.red));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: CustomText(
+                    text: "Payment failed or canceled", fontSize: 17),
+                backgroundColor: Colors.red),
+          );
         }
       },
       child: Scaffold(
@@ -149,6 +220,44 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
         ),
         body: ListView(
           children: [
+            // Watch data
+            Text('Paired: $_paired'),
+            Text('Reachable: $_reachable'),
+            Text('Context: $_context'),
+            Text('Received contexts: $_receivedContexts'),
+            TextButton(
+              child: const Text('Refresh'),
+              onPressed: initPlatformState,
+            ),
+            const SizedBox(height: 8),
+            const Text('Send'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  child: const Text('Message'),
+                  onPressed: () {
+                    final message = {'data': 'Hello'};
+                    _watch.sendMessage(message);
+                    setState(() => _log.add('Sent message: $message'));
+                  },
+                ),
+                const SizedBox(width: 8),
+                TextButton(
+                  child: const Text('Context'),
+                  onPressed: () {
+                    _count++;
+                    final context = {'data': _count};
+                    _watch.updateApplicationContext(context);
+                    setState(() => _log.add('Sent context: $context'));
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(width: 8),
+            const Text('Log'),
+            ..._log.reversed.map((e) => Text(e)),
+            // Watch data
             Container(
               margin: EdgeInsets.only(top: 10.0),
               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
@@ -189,62 +298,63 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
               ),
             ),
             Container(
-                margin: EdgeInsets.only(top: 10.0),
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                height: 113,
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomText(
-                            text: 'Payment',
-                            fontSize: 19,
-                            fontWeight: FontWeight.w600),
-                        GestureDetector(
-                            child: BlocBuilder<CartBloc, CartState>(
-                                builder: (context, state) => (!state.cardActive)
-                                    ? CustomText(
-                                        text: 'Add',
-                                        color: Colors.blue,
-                                        fontSize: 18)
-                                    : CustomText(
-                                        text: 'Change',
-                                        color: Colors.blue,
-                                        fontSize: 18)),
-                            onTap: () => Navigator.of(context).push(customRoute(
-                                page: PaymentPage(), curved: Curves.easeInOut)))
-                      ],
-                    ),
-                    Divider(),
-                    SizedBox(height: 5.0),
-                    BlocBuilder<CartBloc, CartState>(
-                        builder: (context, state) => (!state.cardActive)
-                            ? CustomText(
-                                text: 'Without Credit Card', fontSize: 18)
-                            : Container(
-                                padding: EdgeInsets.symmetric(horizontal: 15.0),
-                                color: Color(0xfff5f5f5),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                        height: 50,
-                                        width: 50,
-                                        child: SvgPicture.asset(
-                                            'Assets/${state.creditCardFrave.brand}.svg')),
-                                    SizedBox(width: 15.0),
-                                    CustomText(
-                                      text:
-                                          '**** **** **** ${state.creditCardFrave.cardNumberHidden}',
-                                      fontSize: 18,
-                                    )
-                                  ],
-                                ),
-                              ))
-                  ],
-                )),
+              margin: EdgeInsets.only(top: 10.0),
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              height: 113,
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                          text: 'Payment',
+                          fontSize: 19,
+                          fontWeight: FontWeight.w600),
+                      GestureDetector(
+                          child: BlocBuilder<CartBloc, CartState>(
+                              builder: (context, state) => (!state.cardActive)
+                                  ? CustomText(
+                                      text: 'Add',
+                                      color: Colors.blue,
+                                      fontSize: 18)
+                                  : CustomText(
+                                      text: 'Change',
+                                      color: Colors.blue,
+                                      fontSize: 18)),
+                          onTap: () => Navigator.of(context).push(customRoute(
+                              page: PaymentPage(), curved: Curves.easeInOut)))
+                    ],
+                  ),
+                  Divider(),
+                  SizedBox(height: 5.0),
+                  BlocBuilder<CartBloc, CartState>(
+                    builder: (context, state) => (!state.cardActive)
+                        ? CustomText(text: 'Without Credit Card', fontSize: 18)
+                        : Container(
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            color: Color(0xfff5f5f5),
+                            child: Row(
+                              children: [
+                                Container(
+                                    height: 50,
+                                    width: 50,
+                                    child: SvgPicture.asset(
+                                        'Assets/${state.creditCardFrave.brand}.svg')),
+                                SizedBox(width: 15.0),
+                                CustomText(
+                                  text:
+                                      '**** **** **** ${state.creditCardFrave.cardNumberHidden}',
+                                  fontSize: 18,
+                                )
+                              ],
+                            ),
+                          ),
+                  )
+                ],
+              ),
+            ),
             Container(
               margin: EdgeInsets.only(top: 10.0),
               padding: EdgeInsets.all(15.0),
@@ -293,6 +403,7 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
                 fontSize: 22,
                 onPressed: () async {
                   // await makePayment(productBloc.state.total * 100);
+                  await notify();
 
                   cartBloc.add(
                     OnMakePayment(amount: productBloc.state.total * 100),

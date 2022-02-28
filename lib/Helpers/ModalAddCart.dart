@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ void modalAddCartSuccess(BuildContext context, String image) {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Image.network(
-                      'http://192.168.1.16:7070/' + image,
+                      publicServerUrl + image,
                       height: 80.0,
                     ),
                     SizedBox(width: 10.0),

@@ -1,9 +1,5 @@
 import 'dart:convert';
 
-import 'package:e_commers/Models/Response/StripeResponse.dart';
-import 'package:e_commers/Models/Stripe/PaymentIntentResponse.dart';
-import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 

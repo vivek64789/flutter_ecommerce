@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Helpers/LoadingUpload.dart';
@@ -18,6 +19,8 @@ import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Bloc/Auth/auth_bloc.dart';
 import 'package:e_commers/Widgets/BottomNavigationFrave.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
+import 'package:flutter/foundation.dart' as foundation;
+import 'package:proximity_sensor/proximity_sensor.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -50,6 +53,34 @@ class _ListProfileState extends State<ListProfile> {
   File image;
   String img;
   final picker = ImagePicker();
+  bool _isNear = false;
+  StreamSubscription<dynamic> _streamSubscription;
+
+  @override
+  void initState() {
+    listenProximitySensor();
+    super.initState();
+  }
+
+  // dispose
+  @override
+  void dispose() {
+    _streamSubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> listenProximitySensor() async {
+    FlutterError.onError = (FlutterErrorDetails details) {
+      if (foundation.kDebugMode) {
+        FlutterError.dumpErrorToConsole(details);
+      }
+    };
+    _streamSubscription = ProximitySensor.events.listen((int event) {
+      setState(() {
+        _isNear = (event > 0) ? true : false;
+      });
+    });
+  }
 
   Future getImage() async {
     var pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -76,6 +107,7 @@ class _ListProfileState extends State<ListProfile> {
 
   @override
   Widget build(BuildContext context) {
+    _isNear ? getTakeFoto() : print("no");
     final size = MediaQuery.of(context).size;
     final authBloc = BlocProvider.of<AuthBloc>(context);
 

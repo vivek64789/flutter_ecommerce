@@ -5,7 +5,6 @@ import 'package:e_commers/Views/Categories/CategoryProductsPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoriesPage extends StatelessWidget {
   @override

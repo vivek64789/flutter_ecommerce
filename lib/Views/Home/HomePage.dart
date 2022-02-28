@@ -38,10 +38,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // Shake
-    print("Before shake");
     detector = ShakeDetector.autoStart(
       onPhoneShake: () {
-        print("Shake");
         return showDialog(
           context: context,
           builder: (context) {
@@ -92,7 +90,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    _isNear ? print("Near") : print("Far");
+
     return Scaffold(
       backgroundColor: Color(0xfff5f5f5),
       body: Stack(
@@ -106,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                 );
               }
             },
-            child: ListHome(),
+            child: _isNear ? CartPage() : ListHome(),
           ),
           Positioned(
             bottom: 20,
@@ -203,12 +201,13 @@ class _ListHomeState extends State<ListHome> {
                       child: Stack(
                         children: [
                           FadeInRight(
-                              child: Container(
-                                  height: 32,
-                                  width: 32,
-                                  child: SvgPicture.asset(
-                                      'Assets/bolso-negro.svg',
-                                      height: 25))),
+                            child: Container(
+                              height: 32,
+                              width: 32,
+                              child: SvgPicture.asset('Assets/bolso-negro.svg',
+                                  height: 25),
+                            ),
+                          ),
                           Positioned(
                             left: 0,
                             top: 12,
@@ -291,14 +290,19 @@ class _ListHomeState extends State<ListHome> {
                     children: [
                       SizedBox(width: 5.0),
                       GestureDetector(
-                        onTap: () => Navigator.of(context).push(customRoute(
-                            page: CategoriesPage(), curved: Curves.easeInOut)),
+                        onTap: () => Navigator.of(context).push(
+                          customRoute(
+                              page: CategoriesPage(), curved: Curves.easeInOut),
+                        ),
                         child: Row(
                           children: [
                             CustomText(text: 'See All', fontSize: 17),
                             SizedBox(width: 5.0),
-                            Icon(Icons.arrow_forward_ios_rounded,
-                                size: 18, color: Color(0xff006CF2))
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 18,
+                              color: Color(0xff006CF2),
+                            )
                           ],
                         ),
                       ),

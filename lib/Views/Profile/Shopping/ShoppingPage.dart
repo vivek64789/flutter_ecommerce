@@ -1,4 +1,5 @@
 import 'package:e_commers/Controller/ProductController.dart';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Models/Response/PurchasedProductsResponse.dart';
 import 'package:e_commers/Widgets/ShimmerFrave.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
@@ -97,7 +98,7 @@ class _DetailsProductsBuy extends StatelessWidget {
                       Container(
                         height: 150,
                         width: 100,
-                        child: Image.network('http://192.168.1.68:5002/' +
+                        child: Image.network(publicServerUrl +
                             purchased.orderDetails[i].productId.picture),
                       ),
                       Container(

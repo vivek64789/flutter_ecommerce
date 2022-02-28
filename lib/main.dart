@@ -1,4 +1,5 @@
 import 'package:e_commers/Bloc/Admin/AdminCategoryBloc/admin_category_bloc.dart';
+import 'package:e_commers/Bloc/Admin/AdminProductBloc/admin_product_bloc.dart';
 import 'package:e_commers/Bloc/Auth/auth_bloc.dart';
 import 'package:e_commers/Bloc/Cart/cart_bloc.dart';
 import 'package:e_commers/Bloc/General/general_bloc.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => CartBloc()),
         BlocProvider(create: (context) => UploadBloc()),
         BlocProvider(create: (context) => AdminCategoryBloc()),
+        BlocProvider(create: (context) => AdminProductBloc()),
       ],
       child: ScreenUtilInit(
         designSize: Size(360, 690),
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
             );
           },
           debugShowCheckedModeBanner: false,
-          title: 'E-Commers Products',
+          title: 'My Shop',
           initialRoute: 'loadingPage',
           routes: routes,
         ),

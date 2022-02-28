@@ -1,8 +1,16 @@
-import 'package:e_commers/Controller/ProductController.dart';
-import 'package:e_commers/Models/Response/PurchasedProductsResponse.dart';
-import 'package:e_commers/Widgets/ShimmerFrave.dart';
+import 'package:e_commers/Bloc/Admin/AdminProductBloc/admin_product_bloc.dart';
+import 'package:e_commers/Controller/HomeController.dart';
+import 'package:e_commers/Helpers/ModalFrave.dart';
+import 'package:e_commers/Helpers/ModalLoading.dart';
+import 'package:e_commers/Models/Home/ProductsHome.dart';
+import 'package:e_commers/Views/Profile/AdminProducts/AddAdminProduct.dart';
+import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AdminProducts extends StatelessWidget {
   @override
@@ -11,7 +19,7 @@ class AdminProducts extends StatelessWidget {
       backgroundColor: Color(0xfff5f5f5),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: CustomText(text: 'Purchased', color: Colors.black),
+        title: CustomText(text: 'Manage Products', color: Colors.black),
         centerTitle: true,
         elevation: 0,
         leading: IconButton(
@@ -19,129 +27,169 @@ class AdminProducts extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: FutureBuilder<PurchasedProductsResponse>(
-        future: dbProductController.getPurchasedProducts(),
-        builder: (_, snapshot) {
-          return (!snapshot.hasData)
-              ? ShimmerFrave()
-              : _DetailsProductsBuy(purchased: snapshot.data);
-        },
+      body: Container(
+        // height: 1.sh,
+        child: Column(
+          children: [
+            SizedBox(height: 5.0),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(
+                    text: 'All Products',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  TextButton(
+                      onPressed: () => Navigator.of(context).push(customRoute(
+                          page: AddAdminProduct(), curved: Curves.easeInOut)),
+                      child: Text(
+                        "Add New Product",
+                        style: TextStyle(fontSize: 15.sm),
+                      ))
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 15.0, bottom: 10.0),
+              child: _ListProducts(),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _DetailsProductsBuy extends StatelessWidget {
-  final PurchasedProductsResponse purchased;
+class _ListProducts extends StatefulWidget {
+  @override
+  State<_ListProducts> createState() => _ListProductsState();
+}
 
-  const _DetailsProductsBuy({this.purchased});
-
+class _ListProductsState extends State<_ListProducts> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-      itemCount: purchased.orderDetails.length,
-      itemBuilder: (_, i) => Container(
-        height: 400,
-        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-        margin: EdgeInsets.only(bottom: 15.0),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(15.0)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-                child:
-                    CustomText(text: purchased.orderBuy.receipt, fontSize: 21)),
-            SizedBox(height: 10.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(text: 'Date ', fontSize: 19, color: Colors.grey),
-                CustomText(text: '${purchased.orderBuy.datee}', fontSize: 19),
-              ],
-            ),
-            SizedBox(height: 10.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(text: 'Amount ', fontSize: 19, color: Colors.grey),
-                CustomText(
-                    text: '\$ ${purchased.orderBuy.amount}', fontSize: 19),
-              ],
-            ),
-            SizedBox(height: 10.0),
-            Divider(),
-            SizedBox(height: 10.0),
-            CustomText(text: 'Products', fontSize: 19),
-            SizedBox(height: 10.0),
-            Container(
-              height: 220,
-              padding: EdgeInsets.all(15.0),
-              decoration: BoxDecoration(
-                  color: Color(0xfff5f5f5),
-                  borderRadius: BorderRadius.circular(15.0)),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: purchased.orderDetails.length,
-                itemBuilder: (_, i) => Container(
-                  margin: EdgeInsets.only(right: 10.0),
-                  padding: EdgeInsets.all(15.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15.0)),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 150,
-                        width: 100,
-                        child: Image.network('http://192.168.1.68:5002/' +
-                            purchased.orderDetails[i].productId.picture),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(10.0),
-                        height: 150,
-                        width: MediaQuery.of(context).size.width * .53,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Wrap(
-                              children: [
-                                CustomText(
-                                    text: purchased
-                                        .orderDetails[i].productId.nameProduct,
-                                    fontSize: 17),
-                              ],
+    final _adminCategoryBloc = BlocProvider.of<AdminProductBloc>(context);
+    return BlocListener<AdminProductBloc, AdminProductState>(
+      listener: (context, state) {
+        if (state is DeleteProductLoadingState) {
+          modalLoading(context, 'Deleting Product...');
+        } else if (state is DeleteProductSuccessState) {
+          setState(() {});
+          Navigator.of(context).pop();
+          modalFrave(context, 'Product Deleted Successfully');
+        } else if (state is DeleteProductFailureState) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: CustomText(text: 'Error Deleting Product'),
+              backgroundColor: Colors.red));
+        }
+      },
+      child: Container(
+        height: 600.sm,
+        width: MediaQuery.of(context).size.width,
+        child: FutureBuilder<List<Product>>(
+          future: dbHomeController.getListProductsHome(),
+          builder: (context, snapshot) {
+            List<Product> list = snapshot.data;
+
+            return !snapshot.hasData
+                ? _LoadingShimmerProducts()
+                : RefreshIndicator(
+                    onRefresh: () async {
+                      await dbHomeController.getListProductsHome();
+                      setState(() {});
+                      return dbHomeController.getListProductsHome();
+                    },
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: list.length == null ? 0 : list.length,
+                      itemBuilder: (context, i) => Container(
+                        margin: EdgeInsets.all(10.sm),
+                        padding: EdgeInsets.symmetric(vertical: 10.sm),
+                        width: 150,
+                        decoration: BoxDecoration(
+                            color: Color(0xff0C6CF2).withOpacity(.1),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Center(
+                          child: ListTile(
+                            title: Text(
+                              list[i].nameProduct,
+                              style: GoogleFonts.getFont('Roboto',
+                                  fontSize: 18, color: Color(0xff0C6CF2)),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            SizedBox(height: 10.0),
-                            CustomText(
-                                text: '\$ ${purchased.orderDetails[i].price}',
-                                fontSize: 18),
-                            SizedBox(height: 10.0),
-                            Container(
-                                alignment: Alignment.center,
-                                height: 29,
-                                width: 30,
-                                decoration: BoxDecoration(
-                                    color: Color(0xfff5f5f5),
-                                    shape: BoxShape.circle),
-                                child: CustomText(
-                                    text:
-                                        '${purchased.orderDetails[i].quantity}',
-                                    fontSize: 19)),
-                          ],
+                            trailing: Container(
+                              width: 100.sm,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                    splashColor:
+                                        Color.fromARGB(255, 169, 199, 170),
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Colors.green,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(customRoute(
+                                          page: AddAdminProduct(
+                                              isUpdate: true,
+                                              category: list[i].nameProduct,
+                                              id: list[i].id),
+                                          curved: Curves.easeInOut));
+                                    },
+                                  ),
+                                  IconButton(
+                                    splashColor:
+                                        Color.fromARGB(255, 253, 154, 154),
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () {
+                                      _adminCategoryBloc.add(
+                                          DeleteProductEvent(id: list[i].id));
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
+                      ),
+                    ),
+                  );
+          },
         ),
       ),
+    );
+  }
+}
+
+class _LoadingShimmerProducts extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 600.sm,
+      child: ListView.builder(
+          itemCount: 8,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: EdgeInsets.all(10.sm),
+              height: 50.sm,
+              child: Shimmer.fromColors(
+                baseColor: Colors.white,
+                highlightColor: Color(0xFFF7F7F7),
+                child: Container(
+                  color: Colors.white,
+                ),
+              ),
+            );
+          }),
     );
   }
 }

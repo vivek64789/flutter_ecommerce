@@ -1,4 +1,5 @@
 import 'package:e_commers/Controller/HomeController.dart';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Models/Home/CategoriesProducts.dart';
 import 'package:e_commers/Views/Categories/CategoryProductsPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
@@ -69,7 +70,7 @@ class _ListCategories extends StatelessWidget {
                 Container(
                   height: 100,
                   child: Image.network(
-                    'http://192.168.1.68:5002/' + list[i].picture,
+                    publicServerUrl + list[i].picture,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),

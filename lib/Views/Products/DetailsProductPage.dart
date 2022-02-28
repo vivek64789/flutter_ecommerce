@@ -1,4 +1,5 @@
 import 'package:e_commers/Bloc/Product/product_bloc.dart';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Helpers/ModalAddCart.dart';
 import 'package:e_commers/Models/Home/ProductsHome.dart';
 import 'package:e_commers/Models/Product.dart';
@@ -288,7 +289,7 @@ class _ImageProduct extends StatelessWidget {
       child: Container(
         height: 250,
         width: MediaQuery.of(context).size.width,
-        child: Image.network('http://192.168.1.68:5002/' + imageProduct),
+        child: Image.network(publicServerUrl + imageProduct),
       ),
     );
   }

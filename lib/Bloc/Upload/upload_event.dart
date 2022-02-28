@@ -8,3 +8,8 @@ class UploadPictureEvent extends UploadEvent {
   final String picture;
   UploadPictureEvent({this.picture});
 }
+
+// *----------------------------------------------*
+class ResetUpload extends UploadEvent {
+  ResetUpload();
+}

@@ -3,7 +3,6 @@ import 'package:e_commers/Controller/HomeController.dart';
 import 'package:e_commers/Helpers/ModalFrave.dart';
 import 'package:e_commers/Helpers/ModalLoading.dart';
 import 'package:e_commers/Models/Home/CategoriesProducts.dart';
-import 'package:e_commers/Views/Categories/CategoriesPage.dart';
 import 'package:e_commers/Views/Profile/AdminCategories/AddAdminCategory.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
@@ -75,17 +74,7 @@ class _ListCategoriesState extends State<_ListCategories> {
     final _adminCategoryBloc = BlocProvider.of<AdminCategoryBloc>(context);
     return BlocListener<AdminCategoryBloc, AdminCategoryState>(
       listener: (context, state) {
-        if (state is LoadingUpdateCategoryState) {
-          modalLoading(context, 'Updating category...');
-        } else if (state is UpdateCategorySuccessState) {
-          Navigator.of(context).pop();
-          modalFrave(context, 'Category Updated Successfully');
-        } else if (state is FailureUpdateCategoryState) {
-          Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: CustomText(text: 'Error Updating category'),
-              backgroundColor: Colors.red));
-        } else if (state is DeleteCategoryLoadingState) {
+        if (state is DeleteCategoryLoadingState) {
           modalLoading(context, 'Deleting category...');
         } else if (state is DeleteCategorySuccessState) {
           setState(() {});
@@ -145,7 +134,14 @@ class _ListCategoriesState extends State<_ListCategories> {
                                       Icons.edit,
                                       color: Colors.green,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).push(customRoute(
+                                          page: AddAdminCategory(
+                                              isUpdate: true,
+                                              category: list[i].category,
+                                              id: list[i].id),
+                                          curved: Curves.easeInOut));
+                                    },
                                   ),
                                   IconButton(
                                     splashColor:
@@ -177,12 +173,23 @@ class _ListCategoriesState extends State<_ListCategories> {
 class _LoadingShimmerCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.white,
-      highlightColor: Color(0xFFF7F7F7),
-      child: Container(
-        color: Colors.white,
-      ),
+    return Container(
+      height: 600.sm,
+      child: ListView.builder(
+          itemCount: 8,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: EdgeInsets.all(10.sm),
+              height: 50.sm,
+              child: Shimmer.fromColors(
+                baseColor: Colors.white,
+                highlightColor: Color(0xFFF7F7F7),
+                child: Container(
+                  color: Colors.white,
+                ),
+              ),
+            );
+          }),
     );
   }
 }

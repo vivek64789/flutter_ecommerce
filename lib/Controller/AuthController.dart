@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Models/AuthModel.dart';
 import 'package:e_commers/Models/ResponseModels.dart';
 import 'package:e_commers/Models/UpdateProfile.dart';
@@ -7,8 +8,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class AuthController {
-  String server = 'http://192.168.1.68:5002/api';
-  // http://192.168.1.68:5002/api
+  String server = baseServerUrl;
+  // baseServerUrl
 
   final secureStorage = FlutterSecureStorage();
 
@@ -99,7 +100,9 @@ class AuthController {
     secureStorage.deleteAll();
   }
 
-
+  Future<void> resetUpload() async {
+    secureStorage.delete(key: 'picture');
+  }
 }
 
 final authController = AuthController();

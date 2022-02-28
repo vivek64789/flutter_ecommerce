@@ -15,6 +15,8 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   Stream<UploadState> mapEventToState(UploadEvent event) async* {
     if (event is UploadPictureEvent) {
       yield* _mapUploadPicture(event.picture);
+    } else if (event is ResetUpload) {
+      yield* _mapResetUpload();
     }
   }
 
@@ -32,6 +34,18 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       yield UploadSuccess();
 
       yield state.copyWith(picture: resp.picture);
+    } catch (e) {
+      yield FailureSaveImage(error: e.toString());
+    }
+  }
+
+  Stream<UploadState> _mapResetUpload() async* {
+    try {
+      final secureStorage = FlutterSecureStorage();
+
+      final resp = await authController.resetUpload();
+
+      yield state.copyWith(picture: null);
     } catch (e) {
       yield FailureSaveImage(error: e.toString());
     }

@@ -1,4 +1,5 @@
 import 'package:e_commers/Bloc/Product/product_bloc.dart';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Views/Cart/CheckoutPage.dart';
 import 'package:e_commers/Views/Home/HomePage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
@@ -125,8 +126,8 @@ class _DetailsProducts extends StatelessWidget {
                   children: [
                     Container(
                         width: 100,
-                        child: Image.network('http://192.168.1.68:5002/' +
-                            state.products[i].image)),
+                        child: Image.network(
+                            publicServerUrl + state.products[i].image)),
                     SizedBox(width: 10.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Models/Home/ProductsHome.dart';
 import 'package:http/http.dart' as http;
 import 'package:e_commers/Controller/AuthController.dart';
@@ -6,7 +7,7 @@ import 'package:e_commers/Models/Home/HomeCarousel.dart';
 import 'package:e_commers/Models/Home/CategoriesProducts.dart';
 
 class HomeController {
-  String server = 'http://192.168.1.68:5002/api';
+  String server = baseServerUrl;
 
   Future<List<SliderHome>> getHomeCarouselSlider() async {
     final token = await authController.readToken();

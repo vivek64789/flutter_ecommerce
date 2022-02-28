@@ -21,11 +21,9 @@ class AdminCategoryBloc extends Bloc<AdminCategoryEvent, AdminCategoryState> {
       );
     } else if (event is UpdateCategoryEvent) {
       yield* _mapUpdateCategory(event.id, event.category, event.picture);
-    } 
-    else if (event is DeleteCategoryEvent) {
+    } else if (event is DeleteCategoryEvent) {
       yield* _mapDeleteCategory(event.id);
-    }
-    else if (event is GetCategoryDetailsByIdEvent) {
+    } else if (event is GetCategoryDetailsByIdEvent) {
       yield* _mapGetCategoryById(event.id);
     }
   }
@@ -72,7 +70,6 @@ class AdminCategoryBloc extends Bloc<AdminCategoryEvent, AdminCategoryState> {
       await Future.delayed(Duration(seconds: 2));
 
       final data = await adminController.deleteCategory(id: id);
-      print("This is delete category ${data.resp}");
       if (data.resp) {
         yield DeleteCategorySuccessState();
       } else {
@@ -82,14 +79,13 @@ class AdminCategoryBloc extends Bloc<AdminCategoryEvent, AdminCategoryState> {
       yield DeleteCategoryFailureState(error: e.toString());
     }
   }
- 
+
   Stream<AdminCategoryState> _mapGetCategoryById(String id) async* {
     try {
       yield GetCategoryByIdLoadingState();
       await Future.delayed(Duration(seconds: 2));
 
       final data = await adminController.getCategoryById(id: id);
-      print("This is delete category ${data.resp}");
       if (data.resp) {
         yield GetCategoryByIdSuccessState();
       } else {

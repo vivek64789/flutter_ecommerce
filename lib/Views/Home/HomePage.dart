@@ -3,6 +3,7 @@ import 'package:e_commers/Bloc/Auth/auth_bloc.dart';
 import 'package:e_commers/Bloc/General/general_bloc.dart';
 import 'package:e_commers/Bloc/Product/product_bloc.dart';
 import 'package:e_commers/Controller/HomeController.dart';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Models/Home/CategoriesProducts.dart';
 import 'package:e_commers/Models/Home/HomeCarousel.dart';
 import 'package:e_commers/Models/Home/ProductsHome.dart';
@@ -271,7 +272,7 @@ class _ListProducts extends StatelessWidget {
                           child: Hero(
                               tag: list[i].id,
                               child: Image.network(
-                                'http://192.168.1.68:5002/' + list[i].picture,
+                                publicServerUrl + list[i].picture,
                                 height: 150,
                               )),
                         ),
@@ -355,8 +356,7 @@ class _CarCarousel extends StatelessWidget {
                             image: DecorationImage(
                                 fit: BoxFit.fill,
                                 image: NetworkImage(
-                                    'http://192.168.1.68:5002/' +
-                                        silerHome[i].image))),
+                                    publicServerUrl + silerHome[i].image))),
                       );
                     },
                   );

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Models/Home/ProductsHome.dart';
 import 'package:e_commers/Models/Product.dart';
 import 'package:e_commers/Models/Product/FavoriteProduct.dart';
@@ -9,7 +10,7 @@ import 'package:e_commers/Models/ResponseModels.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ProductController {
-  String server = 'http://192.168.1.68:5002/api';
+  String server = baseServerUrl;
   final secureStorage = FlutterSecureStorage();
 
   Future<ResponseModels> addOrDeleteProductFavorite({String uidProduct}) async {

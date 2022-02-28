@@ -1,3 +1,4 @@
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -104,8 +105,7 @@ class ProductFavorite extends StatelessWidget {
             color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
         child: Column(
           children: [
-            Image.network(
-                'http://192.168.1.68:5002/' + product.productId.picture,
+            Image.network(baseServerUrl+"/" + product.productId.picture,
                 height: 140),
             CustomText(
                 text: product.productId.nameProduct,

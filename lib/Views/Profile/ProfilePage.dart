@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Helpers/LoadingUpload.dart';
 import 'package:e_commers/Views/Profile/AdminCategories/AdminCategories.dart';
 import 'package:e_commers/Views/Profile/AdminProducts/AdminProducts.dart';
@@ -125,9 +126,9 @@ class _ListProfileState extends State<ListProfile> {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                            'http://192.168.1.68:5002/' +
-                                                state.profile.toString()))),
+                                        image: NetworkImage(baseServerUrl +
+                                            "/" +
+                                            state.profile.toString()))),
                               ),
                             )),
                   SizedBox(width: 15.0),

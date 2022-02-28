@@ -1,4 +1,5 @@
 import 'package:e_commers/Controller/ProductController.dart';
+import 'package:e_commers/Helpers/BaseServerUrl.dart';
 import 'package:e_commers/Models/Home/ProductsHome.dart';
 import 'package:e_commers/Views/Products/DetailsProductPage.dart';
 import 'package:e_commers/Widgets/StaggeredDualView.dart';
@@ -72,8 +73,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage> {
                               child: Hero(
                                   tag: listProduct[i].id,
                                   child: Image.network(
-                                    'http://192.168.1.68:5002/' +
-                                        listProduct[i].picture,
+                                    publicServerUrl + listProduct[i].picture,
                                     height: 150,
                                   )),
                             ),

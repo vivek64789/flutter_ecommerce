@@ -1,28 +1,31 @@
 import 'dart:io';
 
-import 'package:e_commers/Bloc/Admin/AdminCategoryBloc/admin_category_bloc.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:e_commers/Bloc/Admin/AdminProductBloc/admin_product_bloc.dart';
 import 'package:e_commers/Bloc/Upload/upload_bloc.dart';
+import 'package:e_commers/Controller/HomeController.dart';
 import 'package:e_commers/Helpers/LoadingUpload.dart';
 import 'package:e_commers/Helpers/ModalFrave.dart';
 import 'package:e_commers/Helpers/ModalLoading.dart';
-import 'package:e_commers/Widgets/TextFormFrave.dart';
+import 'package:e_commers/Models/Home/CategoriesProducts.dart';
+import 'package:e_commers/Models/Home/ProductsHome.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:e_commers/Widgets/CustomButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddAdminCategory extends StatefulWidget {
+class AddAdminProduct extends StatefulWidget {
   String category;
   String id;
   bool isUpdate = false;
-  AddAdminCategory({this.category, this.id, this.isUpdate});
+  AddAdminProduct({this.category, this.id, this.isUpdate});
 
   @override
-  _AddAdminCategoryState createState() => _AddAdminCategoryState();
+  _AddAdminProductState createState() => _AddAdminProductState();
 }
 
-class _AddAdminCategoryState extends State<AddAdminCategory> {
+class _AddAdminProductState extends State<AddAdminProduct> {
   TextEditingController categoryController = TextEditingController();
   var category = "";
   var id = "";
@@ -42,31 +45,30 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
     // BlocProvider.of<UploadBloc>(context).add(ResetUpload());
     super.dispose();
   }
-  
 
   @override
   Widget build(BuildContext context) {
-    final adminCategoryBloc = BlocProvider.of<AdminCategoryBloc>(context);
+    final adminProductBloc = BlocProvider.of<AdminProductBloc>(context);
     final uploadBloc = BlocProvider.of<UploadBloc>(context).state;
 
-    return BlocListener<AdminCategoryBloc, AdminCategoryState>(
+    return BlocListener<AdminProductBloc, AdminProductState>(
       listener: (context, state) {
-        if (state is LoadingAddCategoryState) {
-          modalLoading(context, 'Adding category...');
-        } else if (state is AddCategorySuccessState) {
+        if (state is LoadingAddProductState) {
+          modalLoading(context, 'Adding product...');
+        } else if (state is AddProductSuccessState) {
           Navigator.of(context).pop();
-          modalFrave(context, 'Category Added Successfully');
-        } else if (state is FailureAddCategoryState) {
+          modalFrave(context, 'Product Added Successfully');
+        } else if (state is FailureAddProductState) {
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: CustomText(text: 'Error adding category'),
+              content: CustomText(text: 'Error adding Product'),
               backgroundColor: Colors.red));
-        } else if (state is LoadingUpdateCategoryState) {
-          modalLoading(context, 'Updating category...');
-        } else if (state is UpdateCategorySuccessState) {
+        } else if (state is LoadingUpdateProductState) {
+          modalLoading(context, 'Updating Product...');
+        } else if (state is UpdateProductSuccessState) {
           Navigator.of(context).pop();
-          modalFrave(context, 'Category Updated Successfully');
-        } else if (state is FailureUpdateCategoryState) {
+          modalFrave(context, 'Product Updated Successfully');
+        } else if (state is FailureUpdateProductState) {
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: CustomText(text: 'Error Updating category'),
@@ -79,7 +81,7 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
             backgroundColor: Colors.white,
             elevation: 0,
             title: CustomText(
-                text: isUpdate ? "Update $category" : 'Add Category',
+                text: isUpdate ? "Update $category" : 'Add Product',
                 color: Colors.black),
             centerTitle: true,
             leading: IconButton(
@@ -97,12 +99,84 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             children: [
               SizedBox(height: 30.0),
-              CustomText(text: 'Category Information', fontSize: 18),
+              CustomText(text: 'Product Information', fontSize: 18),
               SizedBox(height: 10.0),
               TextFormField(
-                // hintText: 'Enter Category',
-                // prefixIcon: Icons.category,
-                // fontSize: 18,
+                decoration: InputDecoration(hintText: "Enter Product Name"),
+                initialValue: category,
+                onChanged: (value) => category = value,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter product';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration:
+                    InputDecoration(hintText: "Enter Product Description"),
+                initialValue: category,
+                onChanged: (value) => category = value,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter category';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: InputDecoration(hintText: "Enter Product Code"),
+                initialValue: category,
+                keyboardType: TextInputType.number,
+                onChanged: (value) => category = value,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter category';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration:
+                    InputDecoration(hintText: "Enter Total Stock Quantity"),
+                keyboardType: TextInputType.number,
+                initialValue: category,
+                onChanged: (value) => category = value,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter category';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: InputDecoration(hintText: "Enter Price"),
+                keyboardType: TextInputType.number,
+                initialValue: category,
+                onChanged: (value) => category = value,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter category';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20.0),
+              DropdownSearch<Category>(
+                mode: Mode.BOTTOM_SHEET,
+                items: getCategoriesList(),
+                
+                // onFind: (String filter) => getData(filter),
+                itemAsString: (Category p) => p.category.toString(),
+                onChanged: (Category data) => print(data),
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: InputDecoration(hintText: "Enter Product Name"),
                 initialValue: category,
                 onChanged: (value) => category = value,
                 validator: (value) {
@@ -153,14 +227,14 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
                   print("This is uploaded image ${uploadBloc.picture}");
                   if (_keyForm.currentState.validate()) {
                     !isUpdate
-                        ? adminCategoryBloc.add(AddCategoryEvent(
-                            category: category,
+                        ? adminProductBloc.add(AddProductEvent(
+                            product: category,
                             picture: uploadBloc.picture,
                           ))
-                        : adminCategoryBloc.add(
-                            UpdateCategoryEvent(
+                        : adminProductBloc.add(
+                            UpdateProductEvent(
                               id: id,
-                              category: category,
+                              product: category,
                               picture: uploadBloc.picture,
                             ),
                           );
@@ -172,6 +246,13 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
         ),
       ),
     );
+  }
+
+  List<Category> getCategoriesList() {
+    List<Category> categoryList;
+    dbHomeController.getListCategories().then((value) => categoryList = value);
+    print(categoryList);
+    return categoryList;
   }
 
   File image;

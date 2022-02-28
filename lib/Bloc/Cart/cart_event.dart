@@ -15,8 +15,7 @@ class OnCancelCart extends CartEvent {}
 
 
 class OnMakePayment extends CartEvent {
-  final String amount;
-  final CreditCardFrave creditCardFrave;
+  final double amount;
 
-  OnMakePayment({this.amount, this.creditCardFrave });
+  OnMakePayment({this.amount});
 }

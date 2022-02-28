@@ -125,7 +125,7 @@ class _DetailsProducts extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                        width: 100,
+                        width: 80.sm,
                         child: Image.network(
                             publicServerUrl + state.products[i].image)),
                     SizedBox(width: 10.0),
@@ -247,7 +247,7 @@ class _AppBarCart extends StatelessWidget {
               Container(
                   child: CustomText(
                       text: 'My Cart',
-                      fontSize: 24,
+                      fontSize: 24.sm,
                       fontWeight: FontWeight.w600)),
             ],
           ),
@@ -274,7 +274,8 @@ class WithoutProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductBloc, ProductState>(
-        builder: (_, state) => (state.products == null)
+        builder: (_, state) => (state.products == null ||
+                state.products.length == 0)
             ? Container(
                 height: 270,
                 child: Column(
@@ -307,6 +308,6 @@ class WithoutProducts extends StatelessWidget {
                   ],
                 ),
               )
-            : null);
+            : Container());
   }
 }

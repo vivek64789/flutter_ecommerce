@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,8 +17,93 @@ import 'package:e_commers/Views/Cart/PaymentPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Widgets/CustomButton.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
+import 'package:http/http.dart' as http;
 
-class CheckOutPagePage extends StatelessWidget {
+class CheckOutPagePage extends StatefulWidget {
+  @override
+  State<CheckOutPagePage> createState() => _CheckOutPagePageState();
+}
+
+class _CheckOutPagePageState extends State<CheckOutPagePage> {
+  // init state
+  @override
+  void initState() {
+    _paymentIntentData = {};
+    super.initState();
+  }
+
+  String _paymentApiUrl = "https://api.stripe.com/v1/payment_intents";
+
+  String _secretKey =
+      "sk_test_51Ih5GzHmsIXlXA5BXcXB2pu9zIPUO4m3AI1aJ7alTbGsvE4tquIosr7ujx079Bo88JtGKz7JkeEJLBsOZFeJnBm000HB1PVyYk";
+
+  String publishableKey =
+      "pk_test_51Ih5GzHmsIXlXA5B2yqi16ahSis9qPIV9w1dX3M9nsdesNiEIaj7EgqByz8eN0TJlyRZrD8kDKaKdyifNybdZtue00w4N0rVya";
+
+  Map<String, dynamic> _paymentIntentData;
+
+  Future<void> makePayment(double amount) async {
+    try {
+      _paymentIntentData = await createPaymentIntent(amount, "USD");
+      print(_paymentIntentData);
+      await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+        paymentIntentClientSecret: _paymentIntentData["client_secret"],
+        applePay: true,
+        testEnv: true,
+        currencyCode: "USD",
+        merchantCountryCode: "US",
+        // style: ThemeMode.system,
+        merchantDisplayName: "My Shop",
+      ));
+      await displayPaymentSheet();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> displayPaymentSheet() async {
+    try {
+      // await Stripe.instance.presentPaymentSheet();
+
+      await Stripe.instance.presentPaymentSheet().then((newValue) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("paid successfully")));
+
+        _paymentIntentData = null;
+      });
+      // return true;
+    } on StripeException catch (e) {
+      print(e);
+      // return false;
+    }
+  }
+
+  createPaymentIntent(double amount, String currency) async {
+    try {
+      Map<String, dynamic> body = {
+        "amount": calculateAmount(amount),
+        "currency": currency,
+        "payment_method_types[]": "card"
+      };
+
+      var response = await http.post(Uri.parse(_paymentApiUrl),
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Bearer $_secretKey"
+          },
+          body: body);
+      return jsonDecode(response.body);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  String calculateAmount(double amount) {
+    final price = amount.toInt();
+    return price.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     // new StripeService()
@@ -28,14 +116,15 @@ class CheckOutPagePage extends StatelessWidget {
     return BlocListener<CartBloc, CartState>(
       listener: (context, state) {
         if (state is LoadingPaymentState) {
-          modalLoading(context, 'Making payment...');
+          // modalLoading(context, 'Making payment...');
         } else if (state is SuccessPaymentState) {
           Navigator.pop(context);
           modalPayment(context);
         } else if (state is FailurePaymentState) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: CustomText(text: state.err, fontSize: 17),
+              content:
+                  CustomText(text: "Payment failed or canceled", fontSize: 17),
               backgroundColor: Colors.red));
         }
       },
@@ -196,15 +285,17 @@ class CheckOutPagePage extends StatelessWidget {
                 text: 'Pay',
                 height: 55,
                 fontSize: 22,
-                onPressed: () {
-                  cartBloc.add(OnMakePayment(
-                      amount: '${(productBloc.state.total * 100).floor()}',
-                      creditCardFrave: cartBloc.state.creditCardFrave));
-                  productBloc.add(SaveProductsBuy(
-                      date: DateTime.now().toString(),
-                      amount: '${productBloc.state.total}',
-                      product: productBloc.product));
-                  productBloc.add(ClearProductsEvent());
+                onPressed: () async {
+                  // await makePayment(productBloc.state.total * 100);
+
+                  cartBloc.add(
+                    OnMakePayment(amount: productBloc.state.total * 100),
+                  );
+                  // productBloc.add(SaveProductsBuy(
+                  //     date: DateTime.now().toString(),
+                  //     amount: '${productBloc.state.total}',
+                  //     product: productBloc.product));
+                  // productBloc.add(ClearProductsEvent());
                 },
               ),
             )

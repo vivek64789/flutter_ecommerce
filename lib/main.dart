@@ -7,12 +7,18 @@ import 'package:e_commers/Bloc/Personal/personal_bloc.dart';
 import 'package:e_commers/Bloc/Product/product_bloc.dart';
 import 'package:e_commers/Bloc/Upload/upload_bloc.dart';
 import 'package:e_commers/Routes/Routes.dart';
+import 'package:e_commers/Service/StripeService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = StripeService().publishableKey;
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -36,6 +42,11 @@ class MyApp extends StatelessWidget {
         designSize: Size(360, 690),
         minTextAdapt: true,
         builder: () => MaterialApp(
+          theme: ThemeData(
+            primarySwatch: Colors.red,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          themeMode: ThemeMode.system,
           builder: (context, widget) {
             ScreenUtil.setContext(context);
             return MediaQuery(

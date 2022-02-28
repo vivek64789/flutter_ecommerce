@@ -5,6 +5,7 @@ import 'package:e_commers/Views/Products/DetailsProductPage.dart';
 import 'package:e_commers/Widgets/StaggeredDualView.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CategoryProductsPage extends StatefulWidget {
@@ -67,27 +68,30 @@ class _CategoryProductsPageState extends State<CategoryProductsPage> {
                               DetailsProductPage(product: listProduct[i]))),
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              child: Hero(
-                                  tag: listProduct[i].id,
-                                  child: Image.network(
-                                    publicServerUrl + listProduct[i].picture,
-                                    height: 150,
-                                  )),
-                            ),
-                            SizedBox(height: 10.0),
-                            Text(
-                              listProduct[i].nameProduct,
-                              style: GoogleFonts.getFont('Roboto',
-                                  fontSize: 17, fontWeight: FontWeight.w500),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            CustomText(
-                                text: '\$ ${listProduct[i].price}',
-                                fontSize: 16),
-                          ],
+                        child: SizedBox(
+                          // height: 100.sm,
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Hero(
+                                    tag: listProduct[i].id,
+                                    child: Image.network(
+                                      publicServerUrl + listProduct[i].picture,
+                                      height: 140.sm,
+                                    )),
+                              ),
+                              SizedBox(height: 10.0),
+                              Text(
+                                listProduct[i].nameProduct,
+                                style: GoogleFonts.getFont('Roboto',
+                                    fontSize: 17, fontWeight: FontWeight.w500),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              CustomText(
+                                  text: '\$ ${listProduct[i].price}',
+                                  fontSize: 16),
+                            ],
+                          ),
                         ),
                       ),
                     ),

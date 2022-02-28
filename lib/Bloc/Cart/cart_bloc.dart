@@ -21,7 +21,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       try {
         yield LoadingPaymentState();
 
-        final mesAnio = event.creditCardFrave.expiracyDate.split('/');
+        // final mesAnio = event.creditCardFrave.expiracyDate.split('/');
 
         // final resp = await stripeService.payWithCardExists(
         //   amount: event.amount,
@@ -39,6 +39,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         //   yield FailurePaymentState(err: resp.msg );
         // }
 
+        final resp = await stripeService.makePayment(event.amount);
+
+        if (resp) {
+          yield SuccessPaymentState();
+        } else {
+          yield FailurePaymentState(err: resp.toString());
+        }
       } catch (e) {
         yield FailurePaymentState(err: e.toString());
       }

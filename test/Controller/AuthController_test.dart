@@ -120,49 +120,45 @@ void main() {
     expect(response.users, null);
   });
 
+  test('Renewing Token When Successful', () async {
+    when(authController.renewToken()).thenAnswer(
+      (_) async => AuthModel(
+        resp: true,
+        msj: "Token Renewed Successfully",
+        token: "newToken",
+        role: "User",
+        users: authUserData,
+      ),
+    );
+    AuthModel response = await authController.renewToken();
+    verify(authController.renewToken());
+    expect(response.msj, "Token Renewed Successfully");
+    expect(response.resp, true);
+    expect(response.role, "User");
+    expect(response.token, "newToken");
+    expect(response.users, authUserData);
+  });
+
+  test('Renewing Token When Not Successful', () async {
+    when(authController.renewToken()).thenAnswer(
+      (_) async => AuthModel(
+        resp: false,
+        msj: "There is some error renewing token",
+        token: "",
+        role: "",
+        users: null,
+      ),
+    );
+    AuthModel response = await authController.renewToken();
+    verify(authController.renewToken());
+    expect(response.msj, "There is some error renewing token");
+    expect(response.resp, false);
+    expect(response.role, "");
+    expect(response.token, "");
+    expect(response.users, null);
+  });
+
   tearDownAll(() {
     authController = null;
   });
 }
-
-
-// ============= non mocked version
-
-// import 'package:e_commers/Controller/AuthController.dart';
-// import 'package:e_commers/Models/ResponseModels.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:mockito/annotations.dart';
-
-// void main() {
-//   AuthController authController;
-//   var userData = {"user": "", "password": "", "email": ""};
-//   setUpAll(() {
-//     authController = AuthController();
-//     userData = {
-//       "user": "test3",
-//       "password": "Test@12345",
-//       "email": "test3@gmail.com"
-//     };
-//   });
-  
-//   // @GenerateMocks([AuthController])
-//   test('AuthController ...', () async {});
-//   // Test auth controller
-//   test("Registering user and returning created user", () async {
-//     ResponseModels user = await authController.createUsers(
-//         user: userData["user"],
-//         password: userData["password"],
-//         email: userData["email"]);
-//     expect(user.resp, true);
-//     print(user);
-//     // Test login controller
-
-//     // Test signup controller
-
-//     // Test logout controller
-//   });
-
-//   tearDownAll(() {
-//     authController = null;
-//   });
-// }

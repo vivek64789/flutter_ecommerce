@@ -42,6 +42,7 @@ class CategoriesPage extends StatelessWidget {
   }
 }
 
+
 class _ListCategories extends StatelessWidget {
   final List<Category> list;
 

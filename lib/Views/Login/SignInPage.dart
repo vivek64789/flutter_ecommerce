@@ -1,4 +1,5 @@
 import 'package:e_commers/Bloc/Auth/auth_bloc.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Helpers/ModalLoading.dart';
 import 'package:e_commers/Helpers/ValidatorsForm.dart';
 import 'package:e_commers/Views/Home/HomePage.dart';
@@ -54,7 +55,7 @@ class _SignInPageState extends State<SignInPage> {
               child: CustomText(
                 text: 'Register',
                 fontSize: 18,
-                color: Color(0xff0C6CF2),
+                color: primaryColor,
               ),
               onPressed: () =>
                   Navigator.of(context).pushReplacementNamed('signUpPage'),
@@ -75,7 +76,7 @@ class _SignInPageState extends State<SignInPage> {
                     text: 'Welcome Back!',
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff0C6CF2)),
+                    color: primaryColor),
                 SizedBox(height: 5),
                 CustomText(text: 'Sign In to your account', fontSize: 18),
                 SizedBox(height: 35),

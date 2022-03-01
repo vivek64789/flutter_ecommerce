@@ -1,5 +1,6 @@
 import 'package:e_commers/Bloc/Cart/cart_bloc.dart';
 import 'package:e_commers/Data/ListCard.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Models/Card/CreditCardFrave.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +28,9 @@ class PaymentPage extends StatelessWidget {
             child: Row(
               children: [
                 Icon(Icons.add_circle_outline_rounded,
-                    color: Color(0xff0C6CF2), size: 17),
+                    color: primaryColor, size: 17),
                 SizedBox(width: 5.0),
-                CustomText(
-                    text: 'Add Card', color: Color(0xff0C6CF2), fontSize: 15),
+                CustomText(text: 'Add Card', color: primaryColor, fontSize: 15),
                 SizedBox(width: 7.0),
               ],
             ),
@@ -61,7 +61,7 @@ class PaymentPage extends StatelessWidget {
                                 color: state.creditCardFrave == null
                                     ? Colors.black
                                     : state.creditCardFrave.cvv == card.cvv
-                                        ? Colors.blue
+                                        ? primaryColor
                                         : Colors.black)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +83,7 @@ class PaymentPage extends StatelessWidget {
                                         ? Icon(
                                             Icons.radio_button_checked_rounded,
                                             size: 31,
-                                            color: Colors.blue,
+                                            color: primaryColor,
                                           )
                                         : Icon(Icons.radio_button_off_rounded,
                                             size: 31))

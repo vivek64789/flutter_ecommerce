@@ -1,4 +1,5 @@
 import 'package:e_commers/Data/ListCard.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Views/Profile/Card/AddCard.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
@@ -13,12 +14,10 @@ class CreditCardPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: CustomText(
-            text: 'My Cards',
-            color: Color(0xff0C6CF2),
-            fontWeight: FontWeight.w600),
+            text: 'My Cards', color: primaryColor, fontWeight: FontWeight.w600),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded, color: Color(0xff0C6CF2)),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: primaryColor),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
@@ -27,11 +26,11 @@ class CreditCardPage extends StatelessWidget {
             child: Row(
               children: [
                 Icon(Icons.add_circle_outline_rounded,
-                    color: Color(0xff0C6CF2), size: 17),
+                    color: primaryColor, size: 17),
                 SizedBox(width: 5.0),
                 GestureDetector(
                   child: CustomText(
-                      text: 'Add Card', color: Color(0xff0C6CF2), fontSize: 15),
+                      text: 'Add Card', color: primaryColor, fontSize: 15),
                   onTap: () => Navigator.of(context).push(customRoute(
                       page: AddCreditCardPage(), curved: Curves.easeInOut)),
                 ),

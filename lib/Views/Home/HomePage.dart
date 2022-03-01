@@ -6,6 +6,7 @@ import 'package:e_commers/Bloc/General/general_bloc.dart';
 import 'package:e_commers/Bloc/Product/product_bloc.dart';
 import 'package:e_commers/Controller/HomeController.dart';
 import 'package:e_commers/Helpers/BaseServerUrl.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Models/Home/CategoriesProducts.dart';
 import 'package:e_commers/Models/Home/HomeCarousel.dart';
 import 'package:e_commers/Models/Home/ProductsHome.dart';
@@ -176,7 +177,7 @@ class _ListHomeState extends State<ListHome> {
                         children: [
                           CircleAvatar(
                             radius: 20,
-                            backgroundColor: Color(0xff006CF2),
+                            backgroundColor: primaryColor,
                             child: CustomText(
                               text: authBlocState.username
                                   .substring(0, 2)
@@ -216,7 +217,7 @@ class _ListHomeState extends State<ListHome> {
                                 height: 20,
                                 width: 20,
                                 decoration: BoxDecoration(
-                                    color: Color(0xff0C6CF2),
+                                    color: primaryColor,
                                     shape: BoxShape.circle),
                                 child: Center(
                                   child: BlocBuilder<ProductBloc, ProductState>(
@@ -265,7 +266,7 @@ class _ListHomeState extends State<ListHome> {
                         CustomText(text: 'See All', fontSize: 17),
                         SizedBox(width: 5.0),
                         Icon(Icons.arrow_forward_ios_rounded,
-                            size: 18, color: Color(0xff006CF2))
+                            size: 18, color: primaryColor)
                       ],
                     ),
                   ),
@@ -301,7 +302,7 @@ class _ListHomeState extends State<ListHome> {
                             Icon(
                               Icons.arrow_forward_ios_rounded,
                               size: 18,
-                              color: Color(0xff006CF2),
+                              color: primaryColor,
                             )
                           ],
                         ),
@@ -400,13 +401,13 @@ class _ListCategories extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                     width: 150,
                     decoration: BoxDecoration(
-                        color: Color(0xff0C6CF2).withOpacity(.1),
+                        color: primaryColor.withOpacity(.1),
                         borderRadius: BorderRadius.circular(10.0)),
                     child: Center(
                       child: Text(
                         list[i].category,
                         style: GoogleFonts.getFont('Roboto',
-                            fontSize: 18, color: Color(0xff0C6CF2)),
+                            fontSize: 18, color: primaryColor),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

@@ -1,5 +1,6 @@
 import 'package:e_commers/Bloc/Product/product_bloc.dart';
 import 'package:e_commers/Helpers/BaseServerUrl.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Views/Cart/CheckoutPage.dart';
 import 'package:e_commers/Views/Home/HomePage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
@@ -54,7 +55,7 @@ class CartPage extends StatelessWidget {
                               text: '\$ ${state.total.toStringAsFixed(2)}',
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xff0C6CF2)),
+                              color: primaryColor),
                         )
                       ],
                     ),
@@ -173,8 +174,8 @@ class _DetailsProducts extends StatelessWidget {
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(10.0),
                                           bottomLeft: Radius.circular(10.0))),
-                                  child: Icon(Icons.remove,
-                                      color: Color(0xff0C6CF2)),
+                                  child:
+                                      Icon(Icons.remove, color: primaryColor),
                                 ),
                                 onTap: () {
                                   if (state.products[i].amount > 1) {
@@ -205,8 +206,7 @@ class _DetailsProducts extends StatelessWidget {
                                       borderRadius: BorderRadius.only(
                                           topRight: Radius.circular(10.0),
                                           bottomRight: Radius.circular(10.0))),
-                                  child:
-                                      Icon(Icons.add, color: Color(0xff0C6CF2)),
+                                  child: Icon(Icons.add, color: primaryColor),
                                 ),
                               ),
                             ],
@@ -283,7 +283,7 @@ class WithoutProducts extends StatelessWidget {
                 child: Column(
                   children: [
                     Icon(Icons.shopping_bag_outlined,
-                        size: 90, color: Color(0xff0C6CF2).withOpacity(.7)),
+                        size: 90, color: primaryColor.withOpacity(.7)),
                     SizedBox(height: 20),
                     CustomText(text: 'There is a cart to fill!', fontSize: 18),
                     SizedBox(height: 20),
@@ -297,7 +297,7 @@ class WithoutProducts extends StatelessWidget {
                       child: TextButton(
                         style: ButtonStyle(
                             side: MaterialStateProperty.all(
-                                BorderSide(color: Colors.blue)),
+                                BorderSide(color: primaryColor)),
                             padding: MaterialStateProperty.all(
                                 EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 10))),

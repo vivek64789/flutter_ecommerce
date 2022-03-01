@@ -1,5 +1,6 @@
 import 'package:e_commers/Controller/HomeController.dart';
 import 'package:e_commers/Helpers/BaseServerUrl.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Models/Home/CategoriesProducts.dart';
 import 'package:e_commers/Views/Categories/CategoryProductsPage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
@@ -42,7 +43,6 @@ class CategoriesPage extends StatelessWidget {
   }
 }
 
-
 class _ListCategories extends StatelessWidget {
   final List<Category> list;
 
@@ -63,7 +63,7 @@ class _ListCategories extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(15.0),
             decoration: BoxDecoration(
-                color: Color(0xff0C6CF2).withOpacity(.2),
+                color: primaryColor.withOpacity(.15),
                 borderRadius: BorderRadius.circular(15.0)),
             child: Column(
               children: [

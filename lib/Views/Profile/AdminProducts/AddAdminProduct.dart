@@ -4,6 +4,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:e_commers/Bloc/Admin/AdminProductBloc/admin_product_bloc.dart';
 import 'package:e_commers/Bloc/Upload/upload_bloc.dart';
 import 'package:e_commers/Controller/HomeController.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Helpers/LoadingUpload.dart';
 import 'package:e_commers/Helpers/ModalFrave.dart';
 import 'package:e_commers/Helpers/ModalLoading.dart';
@@ -255,7 +256,7 @@ class _AddAdminProductState extends State<AddAdminProduct> {
                           onPressed: () => changePicture(context),
                           child: CustomText(
                             text: 'Choose Product Image',
-                            color: Colors.blue,
+                            color: primaryColor,
                             fontSize: 18,
                           ),
                         ),

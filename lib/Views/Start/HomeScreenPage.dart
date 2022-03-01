@@ -1,3 +1,4 @@
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:e_commers/Widgets/CustomButton.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ class HomeScreenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1E4DD8),
+      backgroundColor: primaryColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -29,12 +30,12 @@ class HomeScreenPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomText(
-                            text: 'My',
+                            text: 'Fashion',
                             fontSize: 32,
                             color: Colors.white,
                           ),
                           CustomText(
-                              text: ' SHOP',
+                              text: ' Feet',
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),

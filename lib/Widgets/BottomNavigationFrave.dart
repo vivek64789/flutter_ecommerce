@@ -1,3 +1,6 @@
+import 'package:e_commers/Helpers/Colors.dart';
+import 'package:e_commers/Views/Profile/Shopping/ShoppingPage.dart';
+import 'package:e_commers/Views/Profile/Shopping/ShoppingPageHome.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commers/Views/Cart/CartPage.dart';
 import 'package:e_commers/Views/Favorite/FavoritePage.dart';
@@ -53,9 +56,13 @@ class BottomNavigationFrave extends StatelessWidget {
           _ItemsButton(
             i: 3,
             index: index,
-            icon: Icons.search,
+            icon: Icons.shopping_bag_outlined,
             isIcon: true,
-            activeIcon: Icons.search,
+            activeIcon: Icons.shopping_bag,
+            onPressed: () => Navigator.pushReplacement(
+                context,
+                customRoute(
+                    page: ShoppingPageHome(), curved: Curves.easeInOut)),
           ),
           _ItemsButton(
               i: 4,
@@ -99,17 +106,16 @@ class _ItemsButton extends StatelessWidget {
         onTap: onPressed,
         child: center
             ? CircleAvatar(
-                backgroundColor: Color(0xff006cf2),
+                backgroundColor: primaryColor,
                 radius: 26,
                 child: SvgPicture.asset(i == index ? activeSvg : svg,
                     height: 26, color: Colors.white),
               )
             : isIcon
                 ? Icon(i == index ? activeIcon : icon,
-                    size: 30,
-                    color: i == index ? Color(0xff006cf2) : Colors.black)
+                    size: 30, color: i == index ? primaryColor : Colors.black)
                 : SvgPicture.asset(i == index ? activeSvg : svg,
                     height: 26,
-                    color: i == index ? Color(0xff006cf2) : Colors.black));
+                    color: i == index ? primaryColor : Colors.black));
   }
 }

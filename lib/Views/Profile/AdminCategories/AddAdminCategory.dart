@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:e_commers/Bloc/Admin/AdminCategoryBloc/admin_category_bloc.dart';
 import 'package:e_commers/Bloc/Upload/upload_bloc.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Helpers/LoadingUpload.dart';
 import 'package:e_commers/Helpers/ModalFrave.dart';
 import 'package:e_commers/Helpers/ModalLoading.dart';
@@ -41,7 +42,6 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
     // BlocProvider.of<UploadBloc>(context).add(ResetUpload());
     super.dispose();
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +134,7 @@ class _AddAdminCategoryState extends State<AddAdminCategory> {
                           onPressed: () => changePicture(context),
                           child: CustomText(
                             text: 'Choose Category Picture',
-                            color: Colors.blue,
+                            color: primaryColor,
                             fontSize: 18,
                           ),
                         ),

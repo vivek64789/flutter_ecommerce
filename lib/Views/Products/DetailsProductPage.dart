@@ -1,5 +1,6 @@
 import 'package:e_commers/Bloc/Product/product_bloc.dart';
 import 'package:e_commers/Helpers/BaseServerUrl.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Helpers/ModalAddCart.dart';
 import 'package:e_commers/Models/Home/ProductsHome.dart';
 import 'package:e_commers/Models/Product.dart';
@@ -76,7 +77,7 @@ class DetailsProductPage extends StatelessWidget {
                               TextSpan(
                                   text: 'delivery guarantee',
                                   style: GoogleFonts.getFont('Roboto',
-                                      color: Colors.blue, fontSize: 15.sm))
+                                      color: primaryColor, fontSize: 15.sm))
                             ]),
                           )
                         ],
@@ -213,7 +214,7 @@ class DetailsProductPage extends StatelessWidget {
                       height: 40.h,
                       width: 100.h,
                       decoration: BoxDecoration(
-                          color: Color(0xff2D55DB),
+                          color: primaryColor,
                           borderRadius: BorderRadius.circular(10.0.sh)),
                       child: TextButton(
                         style: TextButton.styleFrom(

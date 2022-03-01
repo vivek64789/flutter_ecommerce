@@ -1,3 +1,4 @@
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -53,8 +54,8 @@ class SignUpPage extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              child: CustomText(
-                  text: 'Log In', fontSize: 18, color: Color(0xff0C6CF2)),
+              child:
+                  CustomText(text: 'Log In', fontSize: 18, color: primaryColor),
               onPressed: () =>
                   Navigator.of(context).pushReplacementNamed('signInPage'),
             ),
@@ -69,7 +70,7 @@ class SignUpPage extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             children: [
               CustomText(
-                  text: 'Welcome to My Shop',
+                  text: 'Welcome to Fashion Feet ',
                   fontSize: 23,
                   fontWeight: FontWeight.w600),
               SizedBox(height: 5.0),
@@ -109,16 +110,16 @@ class SignUpPage extends StatelessWidget {
               SizedBox(height: 25.0),
               Row(
                 children: [
-                  Icon(Icons.check_circle_rounded, color: Color(0xff0C6CF2)),
+                  Icon(Icons.check_circle_rounded, color: primaryColor),
                   CustomText(
-                    text: ' I Agree to My Shop ',
+                    text: ' I Agree to Fashion Feet  ',
                     fontSize: 15,
                   ),
                   CustomText(
                       text: ' Terms of Use',
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff0C6CF2)),
+                      color: primaryColor),
                 ],
               ),
               SizedBox(height: 25.0),

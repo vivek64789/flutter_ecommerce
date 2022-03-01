@@ -1,5 +1,6 @@
 import 'package:e_commers/Bloc/Admin/AdminCategoryBloc/admin_category_bloc.dart';
 import 'package:e_commers/Controller/HomeController.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Helpers/ModalFrave.dart';
 import 'package:e_commers/Helpers/ModalLoading.dart';
 import 'package:e_commers/Models/Home/CategoriesProducts.dart';
@@ -112,14 +113,14 @@ class _ListCategoriesState extends State<_ListCategories> {
                         padding: EdgeInsets.symmetric(vertical: 10.sm),
                         width: 150,
                         decoration: BoxDecoration(
-                            color: Color(0xff0C6CF2).withOpacity(.1),
+                            color: primaryColor.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(10.0)),
                         child: Center(
                           child: ListTile(
                             title: Text(
                               list[i].category,
                               style: GoogleFonts.getFont('Roboto',
-                                  fontSize: 18, color: Color(0xff0C6CF2)),
+                                  fontSize: 18, color: primaryColor),
                               overflow: TextOverflow.ellipsis,
                             ),
                             trailing: Container(
@@ -129,10 +130,10 @@ class _ListCategoriesState extends State<_ListCategories> {
                                 children: [
                                   IconButton(
                                     splashColor:
-                                        Color.fromARGB(255, 169, 199, 170),
+                                        Color.fromARGB(255, 211, 158, 255),
                                     icon: Icon(
                                       Icons.edit,
-                                      color: Colors.green,
+                                      color: primaryColor,
                                     ),
                                     onPressed: () {
                                       Navigator.of(context).push(customRoute(

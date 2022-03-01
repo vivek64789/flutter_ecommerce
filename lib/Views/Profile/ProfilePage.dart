@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:e_commers/Helpers/BaseServerUrl.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Helpers/LoadingUpload.dart';
+import 'package:e_commers/Views/Favorite/FavoritePage.dart';
 import 'package:e_commers/Views/Profile/AdminCategories/AdminCategories.dart';
 import 'package:e_commers/Views/Profile/AdminProducts/AdminProducts.dart';
 import 'package:e_commers/Views/Profile/Card/CreditCardPage.dart';
@@ -139,6 +141,7 @@ class _ListProfileState extends State<ListProfile> {
                           ? GestureDetector(
                               onTap: () => changeProfile(context),
                               child: CircleFrave(
+                                color: primaryColor,
                                 radius: 90,
                                 child: Center(
                                     child: CustomText(
@@ -280,7 +283,7 @@ class _ListProfileState extends State<ListProfile> {
               ),
               SizedBox(height: 10.0),
               Container(
-                height: 243,
+                height: 130.sm,
                 width: size.width,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -288,33 +291,16 @@ class _ListProfileState extends State<ListProfile> {
                 child: Column(
                   children: [
                     CardProfile(
-                      text: 'Settings',
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30.0)),
-                      backgroundColor: Color(0xff2EAA9B),
-                      icon: Icons.settings_applications,
-                      onPressed: () {},
-                    ),
-                    _Divider(size: size),
-                    CardProfile(
-                      text: 'Notifications',
-                      borderRadius: BorderRadius.zero,
-                      backgroundColor: Color(0xffE87092),
-                      icon: Icons.notifications_none_rounded,
-                      onPressed: () {},
-                    ),
-                    _Divider(size: size),
-                    CardProfile(
                       text: 'Favorites',
                       backgroundColor: Color(0xfff28072),
                       icon: Icons.favorite_border_rounded,
                       borderRadius: BorderRadius.zero,
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).push(customRoute(
+                          page: FavoritePage(), curved: Curves.easeInOut)),
                     ),
                     _Divider(size: size),
                     CardProfile(
-                      text: 'My Shopping',
+                      text: 'Fashion Feet ping',
                       backgroundColor: Color(0xff0716A5),
                       icon: Icons.shopping_bag_outlined,
                       borderRadius: BorderRadius.only(
@@ -322,62 +308,6 @@ class _ListProfileState extends State<ListProfile> {
                           bottomRight: Radius.circular(30.0)),
                       onPressed: () => Navigator.of(context).push(customRoute(
                           page: ShoppingPage(), curved: Curves.easeInOut)),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 15.0),
-              Padding(
-                padding: EdgeInsets.only(left: 25.0),
-                child: CustomText(
-                  text: 'Personal',
-                  fontSize: 17,
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                height: 243,
-                width: size.width,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30.0)),
-                child: Column(
-                  children: [
-                    CardProfile(
-                      text: 'Privacy & Policy',
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30.0)),
-                      backgroundColor: Color(0xff6dbd63),
-                      icon: Icons.policy_rounded,
-                      onPressed: () {},
-                    ),
-                    _Divider(size: size),
-                    CardProfile(
-                      text: 'Security',
-                      borderRadius: BorderRadius.zero,
-                      backgroundColor: Color(0xff1F252C),
-                      icon: Icons.lock_outline_rounded,
-                      onPressed: () {},
-                    ),
-                    _Divider(size: size),
-                    CardProfile(
-                      text: 'Term & Conditions',
-                      borderRadius: BorderRadius.zero,
-                      backgroundColor: Color(0xff458bff),
-                      icon: Icons.description_outlined,
-                      onPressed: () {},
-                    ),
-                    _Divider(size: size),
-                    CardProfile(
-                      text: 'Help',
-                      backgroundColor: Color(0xff4772e6),
-                      icon: Icons.help_outline,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30.0)),
-                      onPressed: () {},
                     ),
                   ],
                 ),

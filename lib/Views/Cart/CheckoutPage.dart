@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -90,7 +91,7 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
         currencyCode: "USD",
         merchantCountryCode: "US",
         // style: ThemeMode.system,
-        merchantDisplayName: "My Shop",
+        merchantDisplayName: "Fashion Feet ",
       ));
       await displayPaymentSheet();
     } catch (e) {
@@ -218,7 +219,7 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
                             text: personalBloc.state.address == null
                                 ? 'Add'
                                 : 'Change',
-                            color: Colors.blue,
+                            color: primaryColor,
                             fontSize: 18),
                         onTap: () => Navigator.of(context).push(customRoute(
                             page: DeliveryPage(), curved: Curves.easeInOut)),
@@ -257,11 +258,11 @@ class _CheckOutPagePageState extends State<CheckOutPagePage> {
                               builder: (context, state) => (!state.cardActive)
                                   ? CustomText(
                                       text: 'Add',
-                                      color: Colors.blue,
+                                      color: primaryColor,
                                       fontSize: 18)
                                   : CustomText(
                                       text: 'Change',
-                                      color: Colors.blue,
+                                      color: primaryColor,
                                       fontSize: 18)),
                           onTap: () => Navigator.of(context).push(customRoute(
                               page: PaymentPage(), curved: Curves.easeInOut)))
@@ -460,7 +461,7 @@ class _PromoCode extends StatelessWidget {
                 height: 48,
                 width: 200,
                 decoration: BoxDecoration(
-                    color: Color(0xff0C6CF2),
+                    color: primaryColor,
                     borderRadius: BorderRadius.circular(5.0)),
                 child: Center(
                     child: CustomText(

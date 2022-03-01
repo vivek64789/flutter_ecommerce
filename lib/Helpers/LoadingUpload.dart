@@ -1,3 +1,4 @@
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ void loadinUploadFile(BuildContext context) {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         title: CustomText(
           text: 'Uploading Image',
-          color: Color(0xff0C6CF2),
+          color: primaryColor,
         ),
         content: Container(
           height: 200,
@@ -34,20 +35,18 @@ void loadinUploadFile(BuildContext context) {
                       child: ShaderMask(
                         shaderCallback: (rect) {
                           return SweepGradient(
-                              startAngle: 0.0,
-                              endAngle: 3.14 * 2,
-                              stops: [value, value],
-                              center: Alignment.center,
-                              colors: [
-                                Color(0xff0C6CF2),
-                                Colors.transparent
-                              ]).createShader(rect);
+                                  startAngle: 0.0,
+                                  endAngle: 3.14 * 2,
+                                  stops: [value, value],
+                                  center: Alignment.center,
+                                  colors: [primaryColor, Colors.transparent])
+                              .createShader(rect);
                         },
                         child: Container(
                           height: 230,
                           width: 230,
                           decoration: BoxDecoration(
-                              color: Color(0xff0C6CF2), shape: BoxShape.circle),
+                              color: primaryColor, shape: BoxShape.circle),
                         ),
                       ),
                     ),

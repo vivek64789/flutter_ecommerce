@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:e_commers/Helpers/BaseServerUrl.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +20,9 @@ void modalAddCartSuccess(BuildContext context, String image) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                    text: 'My Shop',
+                    text: 'Fashion Feet ',
                     fontSize: 22,
-                    color: Color(0xff006cF2),
+                    color: primaryColor,
                     fontWeight: FontWeight.w500),
                 SizedBox(height: 20),
                 Row(

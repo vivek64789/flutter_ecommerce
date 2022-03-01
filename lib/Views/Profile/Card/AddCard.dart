@@ -1,3 +1,4 @@
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 
@@ -10,12 +11,12 @@ class AddCreditCardPage extends StatelessWidget {
           backgroundColor: Colors.white,
           title: CustomText(
               text: 'Add Cards',
-              color: Color(0xff0C6CF2),
+              color: primaryColor,
               fontWeight: FontWeight.w600),
           centerTitle: true,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded, color: Color(0xff0C6CF2)),
+            icon: Icon(Icons.arrow_back_ios_rounded, color: primaryColor),
             onPressed: () => Navigator.of(context).pop(),
           )),
       body: Center(

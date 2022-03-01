@@ -1,4 +1,5 @@
 import 'package:e_commers/Bloc/Auth/auth_bloc.dart';
+import 'package:e_commers/Helpers/Colors.dart';
 import 'package:e_commers/Views/Start/HomeScreenPage.dart';
 import 'package:e_commers/Views/Home/HomePage.dart';
 import 'package:e_commers/Widgets/AnimationRoute.dart';
@@ -21,7 +22,7 @@ class LoadingPage extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: Color(0xff1E4DD8),
+        backgroundColor: primaryColor,
         body: Center(
           child: Container(
             padding: EdgeInsets.all(15.0),
@@ -34,7 +35,9 @@ class LoadingPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                    text: 'MY SHOP', fontSize: 20, fontWeight: FontWeight.w500),
+                    text: 'Fashion Feet ',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500),
                 SizedBox(height: 20.0),
                 Row(
                   children: [

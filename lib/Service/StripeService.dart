@@ -29,7 +29,7 @@ class StripeService {
         currencyCode: "USD",
         merchantCountryCode: "US",
         // style: ThemeMode.system,
-        merchantDisplayName: "My Shop",
+        merchantDisplayName: "Fashion Feet ",
       ));
       var result = await displayPaymentSheet();
       return result;
